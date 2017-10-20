@@ -21,7 +21,7 @@
                                 <th>Nama</th>
                                 <th>No Telepon</th>
                                 <th>Nama Toko</th>
-                                <th>Jenis Customer</th>
+                                <th>Jenis kongsi</th>
                                 <th>Wilayah</th>
                                 <th>Config</th>
                             </tr>
@@ -48,11 +48,11 @@
                             <a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i>Kategori</a>
                           </div>
                           <div class="form-group">
-                            <label>Nama Customer</label>
-                            <input type="text" class="form-control" name="i_name" id="i_name" placeholder="Masukkan Nama Customer" required="required" value="">
+                            <label>Nama kongsi</label>
+                            <input type="text" class="form-control" name="i_name" id="i_name" placeholder="Masukkan Nama kongsi" required="required" value="">
                           </div>
                           <div class="form-group">
-                            <label>Alamat Customer</label>
+                            <label>Alamat kongsi</label>
                             <textarea class="form-control" rows="3" placeholder="Masukkan Alamat" required="required" name="i_addres" id="i_addres"></textarea>
                           </div>
                           <div class="form-group">
@@ -125,7 +125,7 @@
                             <input type="text" class="form-control" placeholder="Masukkan Nama NPWP" name="i_name_npwp" id="i_name_npwp" value="">
                           </div>
                           <div class="form-group">
-                            <label>Jenis Customer</label>
+                            <label>Jenis kongsi</label>
                             <select class="form-control select2" name="i_type" id="i_type2" style="width: 100%;" required="required" onchange="get_type(this.value)">
                             </select>
                           </div>
@@ -142,21 +142,61 @@
                           <div class="form-group">
                             <label for="exampleInputFile">Foto Toko</label>
                               <br />
-                              <img id="img_customer" src="" style="width:100%;"/>
+                              <img id="img_kongsi" src="" style="width:100%;"/>
                               <br />
                             <input type="file" name="i_img" id="i_img" >
                             
                           </div>
                           
                         </div>
-                        <div class="col-md-12" id="detail_data" style="display: none;">
+                        <div class="col-md-12" id="detail_data">
                           <div class="box-inner">
                             <div class="box-header well" data-original-title="">
-                              <h2>List Paket</h2>
+                              <h2>List Detail</h2>
                             </div>
                             <div class="box-content">
                               <div class="form-group">
                                 <table width="100%" id="table2" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                                  <thead>
+                                    <tr>
+                                      <td><input type="text" class="form-control" name="i_branch_id" placeholder="Auto" readonly=""></td>
+                                      <td>
+                                        <input type="text" class="form-control" name="i_branch" placeholder="Masukkan Nama Cabang" onkeydown="if (event.keyCode == 13) { save_branch(); }">
+                                      </td>
+                                      <td>
+                                        <input type="text" class="form-control" name="i_branch_address" placeholder="Masukkan Alamat Cabang" onkeydown="if (event.keyCode == 13) { save_branch(); }">
+                                      </td>
+                                      <td>
+                                        <!-- <input type="text" class="form-control" name="i_pic" placeholder="Masukkan PIC" onkeydown="if (event.keyCode == 13) { save_branch(); }"> -->
+                                      </td>
+                                      <td>
+                                        <select class="form-control select2" name="i_spg" id="i_spg" style="width: 100%;"></select>
+                                      </td>
+                                      <td width="10%"><button type="button" onclick="save_branch()" class="btn btn-primary">Simpan Cabang</button></td>
+                                    </tr>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>Nama Cabang</th>
+                                      <th>Alamat Cabang</th>
+                                      <th>PIC</th>
+                                      <th>SPG</th>
+                                      <th width="10%">Config</th>
+                                    </tr>
+                                  </thead>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-12" id="detail_data_price" style="display: none;">
+                          <div class="box-inner">
+                            <div class="box-header well" data-original-title="">
+                              <h2>List Price</h2>
+                            </div>
+                            <div class="box-content">
+                              <div class="form-group">
+                                <table width="100%" id="table3" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label>Nama Promo 1</label>
@@ -219,7 +259,7 @@
                             </div>
                           </div>
                         </div>
-                        
+
                       </div>
                       <div class="form-group">&nbsp;</div>
                       <div class="box-footer text-right">
@@ -286,9 +326,13 @@
         select_list_type();
         select_list_type2();
         select_list_city();
+        select_list_spg();
         select_list_item();
         search_data_category();
         select_list_category();
+        document.getElementById('detail_data').style.display = 'none';
+        document.getElementById('detail_data_price').style.display = 'none';
+        document.getElementById('sub_type').style.display = 'none';
     });
 
     function search_data() { 
@@ -297,13 +341,13 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>Customer/load_data/'
+              url: '<?php echo base_url();?>Kongsi/load_data/'
             },
             "columns": [
-              {"name": "customer_name"},
-              {"name": "customer_telp"},
-              {"name": "customer_store"},
-              {"name": "customer_type_name"},
+              {"name": "kongsi_name"},
+              {"name": "kongsi_telp"},
+              {"name": "kongsi_store"},
+              {"name": "kongsi_type_name"},
               {"name": "location_name"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
@@ -314,20 +358,43 @@
         });
     }
 
-    function search_data_price(id) { 
+    function search_data_branch(id) { 
         $('#table2').DataTable({
             destroy: true,
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>Customer/load_data2/'+id
+              url: '<?php echo base_url();?>Kongsi/load_data2/'+id
             },
             "columns": [
-              {"name": "customer_price_id"},
+              {"name": "kongsi_branch_id"},
+              {"name": "kongsi_branch_name"},
+              {"name": "kongsi_branch_address"},
+              {"name": "kongsi_purchase_pic"},
+              {"name": "spg_name"},
+              {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
+            ],
+            "order": [
+              [0, 'asc']
+            ],
+            "iDisplayLength": 10
+        });
+    }
+
+    function search_data_price(id) { 
+        $('#table3').DataTable({
+            destroy: true,
+            "processing": true,
+            "serverSide": true,
+            ajax: {
+              url: '<?php echo base_url();?>Kongsi/load_data3/'+id
+            },
+            "columns": [
+              {"name": "kongsi_price_id"},
               {"name": "item_name"},
-              {"name": "customer_price_value"},
-              {"name": "customer_price_promo1"},
-              {"name": "customer_price_promo2"},
+              {"name": "kongsi_price_value"},
+              {"name": "kongsi_price_promo1"},
+              {"name": "kongsi_price_promo2"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
             "order": [
@@ -356,7 +423,7 @@
     function action_data(){
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Customer/action_data/',
+          url  : '<?php echo base_url();?>Kongsi/action_data/',
           data : new FormData($('#formall')[0]),//$( "#formall" ).serialize(),
           dataType : "json",
           contentType: false,       
@@ -382,11 +449,57 @@
         });
     }
 
+    function save_branch(){
+        var id = document.getElementById("i_id").value;
+        if (id) {
+          var id_new = id;
+        }else{
+          var id_new = 0;
+        }
+        //alert(id);
+
+        $.ajax({
+          type : "POST",
+          url  : '<?php echo base_url();?>Kongsi/action_data_cabang/',
+          data : $( "#formall" ).serialize(),
+          dataType : "json",
+          success:function(data){
+            if(data.status=='200'){
+              reset3();
+              search_data_branch(id_new);
+            } 
+          }
+        });
+      }
+
+      function save_price(){
+        var id = document.getElementById("i_id").value;
+        if (id) {
+          var id_new = id;
+        }else{
+          var id_new = 0;
+        }
+        //alert(id);
+
+        $.ajax({
+          type : "POST",
+          url  : '<?php echo base_url();?>Kongsi/action_data_price/',
+          data : $( "#formall" ).serialize(),
+          dataType : "json",
+          success:function(data){
+            if(data.status=='200'){
+              reset4();
+              search_data_price(id_new);
+            } 
+          }
+        });
+      }
+
     function delete_data(id) {
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>Customer/delete_data',
+                url: '<?php echo base_url();?>Kongsi/delete_data',
                 data: 'id='+id,
                 type: 'POST',
                 dataType: 'json',
@@ -408,40 +521,42 @@
     function edit_data(id) {
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Customer/load_data_where/',
+          url  : '<?php echo base_url();?>Kongsi/load_data_where/',
           data : "id="+id,
           dataType : "json",
           success:function(data){
             for(var i=0; i<data.val.length;i++){
-              document.getElementById("i_id").value = data.val[i].customer_id;
-              document.getElementById("i_name").value = data.val[i].customer_name;
-              document.getElementById("i_addres").value = data.val[i].customer_address;
-              document.getElementById("i_store").value = data.val[i].customer_store;
-              document.getElementById("i_store_addres").value = data.val[i].customer_store_address;
-              document.getElementById("i_telp").value = data.val[i].customer_telp;
-              document.getElementById("i_hp").value = data.val[i].customer_hp;
-              document.getElementById("i_mail").value = data.val[i].customer_mail;
-              document.getElementById("i_no_npwp").value = data.val[i].customer_no_npwp;
-              document.getElementById("i_name_npwp").value = data.val[i].customer_name_npwp;
+              document.getElementById("i_id").value = data.val[i].kongsi_id;
+              document.getElementById("i_name").value = data.val[i].kongsi_name;
+              document.getElementById("i_addres").value = data.val[i].kongsi_address;
+              document.getElementById("i_store").value = data.val[i].kongsi_store;
+              document.getElementById("i_store_addres").value = data.val[i].kongsi_store_address;
+              document.getElementById("i_telp").value = data.val[i].kongsi_telp;
+              document.getElementById("i_hp").value = data.val[i].kongsi_hp;
+              document.getElementById("i_mail").value = data.val[i].kongsi_mail;
+              document.getElementById("i_no_npwp").value = data.val[i].kongsi_no_npwp;
+              document.getElementById("i_name_npwp").value = data.val[i].kongsi_name_npwp;
 
-              document.getElementById("i_warehouse_addres").value = data.val[i].customer_warehouse;
-              document.getElementById("i_warehouse_pic").value = data.val[i].customer_warehouse_pic;
-              document.getElementById("i_warehouse_tlp").value = data.val[i].customer_warehouse_tlp;
-              document.getElementById("i_purchase_pic").value = data.val[i].customer_purchase_pic;
-              document.getElementById("i_purchase_tlp").value = data.val[i].customer_purchase_tlp;
-              document.getElementById("i_store_tlp").value = data.val[i].customer_store_tlp;
-              document.getElementById("i_store_pic").value = data.val[i].customer_store_pic;
+              document.getElementById("i_warehouse_addres").value = data.val[i].kongsi_warehouse;
+              document.getElementById("i_warehouse_pic").value = data.val[i].kongsi_warehouse_pic;
+              document.getElementById("i_warehouse_tlp").value = data.val[i].kongsi_warehouse_tlp;
+              document.getElementById("i_purchase_pic").value = data.val[i].kongsi_purchase_pic;
+              document.getElementById("i_purchase_tlp").value = data.val[i].kongsi_purchase_tlp;
+              document.getElementById("i_store_tlp").value = data.val[i].kongsi_store_tlp;
+              document.getElementById("i_store_pic").value = data.val[i].kongsi_store_pic;
 
-              $("#i_type2").append('<option value="'+data.val[i].customer_type_id+'" selected>'+data.val[i].customer_type_name+'</option>');
-              $("#i_type_sub").append('<option value="'+data.val[i].customer_type_sub_id+'" selected>'+data.val[i].customer_type_sub_name+'</option>');
-              $("#i_city2").append('<option value="'+data.val[i].city_id+'" selected>'+data.val[i].city_name+'</option>');
-              $("#i_category").append('<option value="'+data.val[i].customer_category_id+'" selected>'+data.val[i].customer_category_name+'</option>');
-              $("#img_customer").attr("src", data.val[i].customer_img);
+              $("#i_type2").append('<option value="'+data.val[i].kongsi_type_id+'" selected>'+data.val[i].kongsi_type_name+'</option>');
+              $("#i_type_sub").append('<option value="'+data.val[i].kongsi_type_sub_id+'" selected>'+data.val[i].kongsi_type_sub_name+'</option>');
+              $("#i_city2").append('<option value="'+data.val[i].location_id+'" selected>'+data.val[i].location_code+'-'+data.val[i].location_name+'</option>');
+              $("#i_category").append('<option value="'+data.val[i].kongsi_category_id+'" selected>'+data.val[i].kongsi_category_name+'</option>');
+              $("#img_kongsi").attr("src", data.val[i].kongsi_img);
 
-              if (data.val[i].customer_type_id == 4) {
+              if (data.val[i].kongsi_type_id == 4) {
                 document.getElementById('detail_data').style.display = 'block';
+                document.getElementById('detail_data_price').style.display = 'block';
                 document.getElementById('sub_type').style.display = 'block';
-                search_data_price(data.val[i].customer_id);
+                search_data_branch(data.val[i].kongsi_id);
+                search_data_price(data.val[i].kongsi_id);
                 document.getElementById('promo1').innerHTML = 'Harga '+data.val[i].promo1_name;
                 document.getElementById('promo2').innerHTML = 'Harga '+data.val[i].promo2_name;
                 document.getElementById("i_name_promo1").value = data.val[i].promo1_name;
@@ -460,13 +575,75 @@
         $('[href="#form"]').tab('show');
     }
 
+    function edit_data_branch(id){
+        $.ajax({
+          type : "GET",
+          url  : '<?php echo base_url();?>Kongsi/load_data_where_branch/',
+          data : "id="+id,
+          dataType : "json",
+          success:function(data){
+            for(var i=0; i<data.val.length;i++){
+              $("#i_spg").append('<option value="'+data.val[i].spg_id+'" selected>'+data.val[i].spg_name+'</option>');
+              $('input[name="i_branch"]').val(data.val[i].kongsi_branch_name);
+              $('input[name="i_branch_address"]').val(data.val[i].kongsi_branch_address);
+              $('input[name="i_branch_id"]').val(data.val[i].kongsi_branch_id);
+
+            }
+          }
+        });
+      }
+
+    function edit_data_price(id){
+        $.ajax({
+          type : "GET",
+          url  : '<?php echo base_url();?>Kongsi/load_data_where_price/',
+          data : "id="+id,
+          dataType : "json",
+          success:function(data){
+            for(var i=0; i<data.val.length;i++){
+              $("#i_item").append('<option value="'+data.val[i].item_id+'" selected>'+data.val[i].item_name+'</option>');
+              $('input[name="i_price"]').val(data.val[i].kongsi_price_value);
+              $('input[name="i_promo1"]').val(data.val[i].kongsi_price_promo1);
+              $('input[name="i_promo2"]').val(data.val[i].kongsi_price_promo2);
+              $('input[name="i_price_id"]').val(data.val[i].kongsi_price_id);
+
+            }
+          }
+        });
+      }
+
+      function delete_data_price(id_detail) {
+        var id = document.getElementById("i_id").value;
+        if (id) {
+          var id_new = id;
+        }else{
+          var id_new = 0;
+        }
+
+        var a = confirm("Anda yakin ingin menghapus record ini ?");
+        if(a==true){
+            $.ajax({
+                url: '<?php echo base_url();?>Kongsi/delete_data_price',
+                data: 'id='+id_detail,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                  if (data.status=='200') {
+                    search_data_price(id_new);
+                  }
+                }
+            });
+        }
+        
+    }
+
     function select_list_type() {
         $('#i_type2').select2({
           placeholder: 'Pilih Type',
           multiple: false,
           allowClear: true,
           ajax: {
-            url: '<?php echo base_url();?>Customer/load_data_select_type/',
+            url: '<?php echo base_url();?>Kongsi/load_data_select_type/',
             dataType: 'json',
             delay: 100,
             cache: true,
@@ -500,7 +677,7 @@
           multiple: false,
           allowClear: true,
           ajax: {
-            url: '<?php echo base_url();?>Customer/load_data_select_type/',
+            url: '<?php echo base_url();?>Kongsi/load_data_select_type/',
             dataType: 'json',
             delay: 100,
             cache: true,
@@ -564,10 +741,81 @@
 
       function reset2(){
         $('#i_type2 option').remove();
+        $('#i_type_sub option').remove();
         $('#i_city2 option').remove();
         $('#i_category option').remove();
-        $('#img_customer').attr('src', '');
+        $('#img_kongsi').attr('src', '');
         document.getElementById('detail_data').style.display = 'none';
+        document.getElementById('detail_data_price').style.display = 'none';
+        document.getElementById('sub_type').style.display = 'none';
+      }
+
+      function select_list_spg() {
+        $('#i_spg').select2({
+          placeholder: 'Pilih SPG',
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: '<?php echo base_url();?>Spg/load_data_select_spg/',
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult,
+          templateSelection: FormatSelection,
+        });
+      }
+
+      function select_list_category() {
+        $('#i_category').select2({
+          placeholder: 'Pilih Kategori',
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: '<?php echo base_url();?>Kongsi/load_data_select_category/',
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult,
+          templateSelection: FormatSelection,
+        });
       }
 
       function select_list_item() {
@@ -604,64 +852,16 @@
         });
       }
 
-      function select_list_category() {
-        $('#i_category').select2({
-          placeholder: 'Pilih Kategori',
-          multiple: false,
-          allowClear: true,
-          ajax: {
-            url: '<?php echo base_url();?>Customer/load_data_select_category/',
-            dataType: 'json',
-            delay: 100,
-            cache: true,
-            data: function (params) {
-              return {
-                q: params.term, // search term
-                page: params.page
-              };
-            },
-            processResults: function (data, params) {
-              params.page = params.page || 1;
-
-              return {
-                results: data.items,
-                pagination: {
-                  more: (params.page * 30) < data.total_count
-                }
-              };
-            }
-          },
-          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-          minimumInputLength: 1,
-          templateResult: FormatResult,
-          templateSelection: FormatSelection,
-        });
-      }
-
-      function save_price(){
-        var id = document.getElementById("i_id").value;
-        if (id) {
-          var id_new = id;
-        }else{
-          var id_new = 0;
-        }
-        //alert(id);
-
-        $.ajax({
-          type : "POST",
-          url  : '<?php echo base_url();?>Customer/action_data_price/',
-          data : $( "#formall" ).serialize(),
-          dataType : "json",
-          success:function(data){
-            if(data.status=='200'){
-              reset3();
-              search_data_price(id_new);
-            } 
-          }
-        });
-      }
+      
 
       function reset3(){
+        $('#i_spg option').remove();
+        $('input[name="i_branch"]').val("");
+        $('input[name="i_branch_address"]').val("");
+        $('input[name="i_branch_id"]').val("");
+      }
+
+      function reset4(){
         $('#i_item option').remove();
         $('input[name="i_price"]').val("");
         $('input[name="i_promo1"]').val("");
@@ -669,26 +869,7 @@
         $('input[name="i_price_id"]').val("");
       }
 
-      function edit_data_price(id){
-        $.ajax({
-          type : "GET",
-          url  : '<?php echo base_url();?>Customer/load_data_where_price/',
-          data : "id="+id,
-          dataType : "json",
-          success:function(data){
-            for(var i=0; i<data.val.length;i++){
-              $("#i_item").append('<option value="'+data.val[i].item_id+'" selected>'+data.val[i].item_name+'</option>');
-              $('input[name="i_price"]').val(data.val[i].customer_price_value);
-              $('input[name="i_promo1"]').val(data.val[i].customer_price_promo1);
-              $('input[name="i_promo2"]').val(data.val[i].customer_price_promo2);
-              $('input[name="i_price_id"]').val(data.val[i].customer_price_id);
-
-            }
-          }
-        });
-      }
-
-      function delete_data_price(id_detail) {
+      function delete_data_branch(id_detail) {
         var id = document.getElementById("i_id").value;
         if (id) {
           var id_new = id;
@@ -699,13 +880,13 @@
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>Customer/delete_data_price',
+                url: '<?php echo base_url();?>Kongsi/delete_data_branch',
                 data: 'id='+id_detail,
                 type: 'POST',
                 dataType: 'json',
                 success: function (data) {
                   if (data.status=='200') {
-                    search_data_price(id_new);
+                    search_data_branch(id_new);
                   }
                 }
             });
@@ -728,11 +909,11 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>Customer/load_data_category/'
+              url: '<?php echo base_url();?>Kongsi/load_data_category/'
             },
             "columns": [
-              {"name": "customer_category_id"},
-              {"name": "customer_category_name"},
+              {"name": "kongsi_category_id"},
+              {"name": "kongsi_category_name"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
             "order": [
@@ -745,7 +926,7 @@
     function save_category(){
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Customer/action_data_category/',
+          url  : '<?php echo base_url();?>Kongsi/action_data_category/',
           data : $( "#formcategory" ).serialize(),
           dataType : "json",
           success:function(data){
@@ -761,7 +942,7 @@
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>Customer/delete_data_category',
+                url: '<?php echo base_url();?>Kongsi/delete_data_category',
                 data: 'id='+id,
                 type: 'POST',
                 dataType: 'json',
@@ -780,13 +961,13 @@
     function edit_data_category(id) {
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Customer/load_data_where_category/',
+          url  : '<?php echo base_url();?>Kongsi/load_data_where_category/',
           data : "id="+id,
           dataType : "json",
           success:function(data){
             for(var i=0; i<data.val.length;i++){
-              document.getElementById("i_category_id").value               = data.val[i].customer_category_id;
-              document.getElementById("i_category_name").value             = data.val[i].customer_category_name;
+              document.getElementById("i_category_id").value               = data.val[i].kongsi_category_id;
+              document.getElementById("i_category_name").value             = data.val[i].kongsi_category_name;
 
             }
           }

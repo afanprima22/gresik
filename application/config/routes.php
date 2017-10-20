@@ -74,6 +74,8 @@ $route['Master-Data/Barang-Setengah-Jadi']						= 'Item_half';
 $route['Master-Data/Promo']										= 'Discount';
 $route['Master-Data/Forecast']									= 'Forecast';
 $route['Master-Data/Bonus-Barang']								= 'Item_discount';
+$route['Master-Data/Spg']										= 'Spg';
+$route['Master-Data/Kongsi']									= 'Kongsi';
 $route['Setting/Type-User']										= 'User_type';
 $route['Setting/User']											= 'User';
 $route['Setting/Password-Request']								= 'Keyword';
@@ -97,3 +99,8 @@ $route['Transaction/Retur/Customer']							= 'Retur_cus';
 $route['Transaction/Order-Production']							= 'Order_production';
 $route['Transaction/Penerimaan-Packaging-Box']					= 'Recept_packaging';
 $route['Transaction/Penerimaan-Packaging-Retail']				= 'Recept_packaging_retail';
+$route['Transaction/Order-Kongsi']								= 'Order_kongsi';
+$route['Transaction/Set-Kongsi']								= 'Set_branch_kongsi';
+$route['Transaction/Invoice-Kongsi']							= 'Invoice_kongsi';
+//Laporan
+$route['Laporan/Spg']											= 'Report_Spg';
