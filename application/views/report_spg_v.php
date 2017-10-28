@@ -113,136 +113,137 @@
                       <h4>List Data Kategori</h4>
                       <input type="hidden" class="form-control" name="i_detail_id" id="i_detail_id" placeholder="Auto" readonly="">
                       <input type="hidden" class="form-control" name="i_master_id" id="i_master_id" placeholder="Auto" readonly="">
+                      <input type="text" class="form-control" name="qty_order" id="qty_order" placeholder="Auto" readonly="">
                   </div>
                   <div class="modal-body">
                     <div class="form-group">
                        <div class="col-md-6">
                             <div class="form-group">
                               <label>Tanggal 1</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date1" id="date1" value="">
+                              <input type="text" class="form-control" onchange="set_qty_order(this.value)" placeholder="Qty yang laku" name="date1" id="date1" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 3</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date3" id="date3" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order3(this.value)" placeholder="Qty yang laku" name="date3" id="date3" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 5</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date5" id="date5" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order5(this.value)" placeholder="Qty yang laku" name="date5" id="date5" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 7</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date7" id="date7" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order7(this.value)" placeholder="Qty yang laku" name="date7" id="date7" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 9</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date9" id="date9" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order9(this.value)" placeholder="Qty yang laku" name="date9" id="date9" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 11</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date11" id="date11" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order11(this.value)" placeholder="Qty yang laku" name="date11" id="date11" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 13</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date13" id="date13" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order13(this.value)" placeholder="Qty yang laku" name="date13" id="date13" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 15</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date15" id="date15" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order15(this.value)" placeholder="Qty yang laku" name="date15" id="date15" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 17</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date17" id="date17" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order17(this.value)" placeholder="Qty yang laku" name="date17" id="date17" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 19</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date19" id="date19" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order19(this.value)" placeholder="Qty yang laku" name="date19" id="date19" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 21</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date21" id="date21" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order21(this.value)" placeholder="Qty yang laku" name="date21" id="date21" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 23</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date23" id="date23" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order23(this.value)" placeholder="Qty yang laku" name="date23" id="date23" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 25</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date25" id="date25" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order25(this.value)" placeholder="Qty yang laku" name="date25" id="date25" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 27</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date27" id="date27" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order27(this.value)" placeholder="Qty yang laku" name="date27" id="date27" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 29</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date29" id="date29" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order29(this.value)" placeholder="Qty yang laku" name="date29" id="date29" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 31</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date31" id="date31" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order31(this.value)" placeholder="Qty yang laku" name="date31" id="date31" value="">
                             </div>
                             
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                               <label>Tanggal 2</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date2" id="date2" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order2(this.value)" placeholder="Qty yang laku" name="date2" id="date2" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 4</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date4" id="date4" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order4(this.value)" placeholder="Qty yang laku" name="date4" id="date4" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 6</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date6" id="date6" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order6(this.value)" placeholder="Qty yang laku" name="date6" id="date6" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 8</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date8" id="date8" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order8(this.value)" placeholder="Qty yang laku" name="date8" id="date8" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 10</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date10" id="date10" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order10(this.value)" placeholder="Qty yang laku" name="date10" id="date10" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 12</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date12" id="date12" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order12(this.value)" placeholder="Qty yang laku" name="date12" id="date12" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 14</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date14" id="date14" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order14(this.value)" placeholder="Qty yang laku" name="date14" id="date14" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 16</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date16" id="date16" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order16(this.value)" placeholder="Qty yang laku" name="date16" id="date16" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 18</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date18" id="date18" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order18(this.value)" placeholder="Qty yang laku" name="date18" id="date18" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 20</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date20" id="date20" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order20(this.value)" placeholder="Qty yang laku" name="date20" id="date20" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 22</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date22" id="date22" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order22(this.value)" placeholder="Qty yang laku" name="date22" id="date22" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 24</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date24" id="date24" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order24(this.value)" placeholder="Qty yang laku" name="date24" id="date24" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 26</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date26" id="date26" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order26(this.value)" placeholder="Qty yang laku" name="date26" id="date26" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 28</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date28" id="date28" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order28(this.value)" placeholder="Qty yang laku" name="date28" id="date28" value="">
                             </div>
                             <div class="form-group">
                               <label>Tanggal 30</label>
-                              <input type="text" class="form-control" placeholder="Qty yang laku" name="date30" id="date30" value="">
+                              <input type="text" class="form-control"  onchange="set_qty_order30(this.value)" placeholder="Qty yang laku" name="date30" id="date30" value="">
                             </div>
                             
                         </div>
@@ -308,6 +309,27 @@
             "iDisplayLength": 10
         });
     }
+
+    /*function search_item(id) { 
+        $('#table2').DataTable({
+            destroy: true,
+            "processing": true,
+            "serverSide": true,
+            ajax: {
+              url: '<?php echo base_url();?>Report_spg/load_data_item/'+id
+            },
+            "columns": [
+              {"name": "item_name"},
+              {"name": "order_kongsi_detail_qty"},
+              {"name": "laku"},
+              {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
+            ],
+            "order": [
+              [0, 'asc']
+            ],
+            "iDisplayLength": 10
+        });
+    }*/
 
     function active_tab(id){
         if (id == 1) {
@@ -532,13 +554,14 @@
         $('input[name="i_branch_id"]').val("");
       }
 
-      function search_data_qty_per_date(id,id2){
+      function search_data_qty_per_date(id,id2,id3){
         document.getElementById("i_detail_id").value             = id;
         document.getElementById("i_master_id").value             = id2;
+        document.getElementById("qty_order").value             = id3;
 
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Report_spg/load_data_where_qty_per_date/'+id2,
+          url  : '<?php echo base_url();?>Report_spg/load_data_where_qty_per_date/'+id,
           data : "id="+id,
           dataType : "json",
           success:function(data){
@@ -579,6 +602,380 @@
           }
         });
 
+      }
+
+      /*Alert Sisa Order*/
+
+      function set_qty_order(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+         $('input[name="date1"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order2(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date2"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order3(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date3"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order4(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date4"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order5(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date5"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order6(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date6"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order7(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date7"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order8(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date8"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order9(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date9"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order10(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date10"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order11(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date11"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order12(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date12"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order13(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date13"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order14(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date14"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order15(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date15"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order16(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date16"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order17(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date17"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order18(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date18"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order19(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date19"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order20(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date20"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order21(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date21"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order22(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date22"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order23(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date23"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order24(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date24"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order25(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date25"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order26(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date26"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order27(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date27"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order28(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date28"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order29(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date29"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order30(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date30"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
+      }
+
+      function set_qty_order31(id){
+        var order = document.getElementById("qty_order").value;
+        if (parseFloat(id)>parseFloat(order)) {
+          alert("Tidak Boleh Lebih Dari Sisa Order");
+          $('input[name="date31"]').val(0);
+          var id = 0;
+        }
+        var value = parseFloat(order) - parseFloat(id);
+
+        document.getElementById("qty_order").value = value;
       }
 
       

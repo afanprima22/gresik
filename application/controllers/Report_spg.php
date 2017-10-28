@@ -165,37 +165,7 @@ class Report_spg extends MY_Controller {
 			'join'	=> 'f.item_id = a.item_id',
 			'type'	=> 'inner'
 		);
-		/*$join['data'][] = array(
-			'table' => 'report_spgs a',
-			'join'	=> 'a.report_spg_id = x.report_spg_id',
-			'type'	=> 'inner'
-		);
 
-		$join['data'][] = array(
-			'table' => 'kongsi_branchs b',
-			'join'	=> 'b.kongsi_branch_id = a.kongsi_branch_id',
-			'type'	=> 'inner'
-		);
-
-		$join['data'][] = array(
-			'table' => 'kongsis c',
-			'join'	=> 'c.kongsi_id=b.kongsi_id',
-			'type'	=> 'inner'
-		);
-
-		$join['data'][] = array(
-			'table' => 'order_kongsis d',
-			'join'	=> 'd.kongsi_id = c.kongsi_id',
-			'type'	=> 'inner'
-		);
-
-		$join['data'][] = array(
-			'table' => 'kongsi_prices e',
-			'join'	=> 'e.kongsi_id = c.kongsi_id',
-			'type'	=> 'inner'
-		);
-
-		*/
 		//WHERE
 		$where['data'][] = array(
 			'column' => 'x.report_spg_id',
@@ -213,12 +183,13 @@ class Report_spg extends MY_Controller {
 				$sql = "SELECT set_detail_branch_qty as total FROM set_detail_branch a WHERE item_id =$val->item_id";
 				$row= $this->g_mod->select_manual($sql);
 				$laku = $val->report_spg_detail_date1+$val->report_spg_detail_date2+$val->report_spg_detail_date3+$val->report_spg_detail_date4+$val->report_spg_detail_date5+$val->report_spg_detail_date6+$val->report_spg_detail_date7+$val->report_spg_detail_date8+$val->report_spg_detail_date9+$val->report_spg_detail_date10+$val->report_spg_detail_date11+$val->report_spg_detail_date12+$val->report_spg_detail_date13+$val->report_spg_detail_date14+$val->report_spg_detail_date15+$val->report_spg_detail_date16+$val->report_spg_detail_date17+$val->report_spg_detail_date18+$val->report_spg_detail_date19+$val->report_spg_detail_date20+$val->report_spg_detail_date21+$val->report_spg_detail_date22+$val->report_spg_detail_date23+$val->report_spg_detail_date24+$val->report_spg_detail_date25+$val->report_spg_detail_date26+$val->report_spg_detail_date27+$val->report_spg_detail_date28+$val->report_spg_detail_date29+$val->report_spg_detail_date30+$val->report_spg_detail_date31;
+				$sisa = $val->set_detail_branch_qty - $laku;
 				if ($val->report_spg_id>0) {
 					$response['data'][] = array(
 						$val->item_name,
 						$val->set_detail_branch_qty,
 						$laku,
-						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_qty_per_date('.$val->report_spg_detail_id.','.$val->report_spg_id.')"><i class="glyphicon glyphicon-search"></i></a>'
+						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_qty_per_date('.$val->report_spg_detail_id.','.$val->report_spg_id.','.$sisa.')"><i class="glyphicon glyphicon-search"></i></a>'
 					);
 					$no++;	
 				}
@@ -236,6 +207,82 @@ class Report_spg extends MY_Controller {
 
 		echo json_encode($response);
 	}
+
+	/*public function load_data_item($id){
+		$u = 'disabled'; $d = 'disabled';
+		if (strpos($this->permit, 'u') !== false){
+			$u = '';
+		}else{
+
+		}
+		if (strpos($this->permit, 'd') !== false){
+			$d = '';
+		}
+		$tbl = 'set_detail_branch a';
+		$select = 'a.*,b.*';
+		//LIMIT
+		$limit = array(
+			'start'  => $this->input->get('start'),
+			'finish' => $this->input->get('length')
+		);
+		//WHERE LIKE
+		$where_like['data'][] = array(
+			'column' => 'item_name',
+			'param'	 => $this->input->get('search[value]')
+		);
+		//ORDER
+		$index_order = $this->input->get('order[0][column]');
+		$order['data'][] = array(
+			'column' => $this->input->get('columns['.$index_order.'][name]'),
+			'type'	 => $this->input->get('order[0][dir]')
+		);
+
+		$join['data'][] = array(
+			'table' => 'items b',
+			'join'	=> 'b.item_id = a.item_id',
+			'type'	=> 'inner'
+		);
+		
+		//WHERE
+		$where['data'][] = array(
+			'column' => 'kongsi_branch_id',
+			'param'	 => $id
+		);
+
+		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
+		$query_filter = $this->g_mod->select($select,$tbl,NULL,$where_like,$order,$join,$where);
+		$query = $this->g_mod->select($select,$tbl,$limit,$where_like,$order,$join,$where);
+
+		$response['data'] = array();
+		if ($query<>false) {
+			$no = $limit['start']+1;
+			foreach ($query->result() as $val) {
+				//$sql = "SELECT set_detail_branch_qty as total FROM set_detail_branch a WHERE item_id =$val->item_id";
+				//$row= $this->g_mod->select_manual($sql);
+				//$laku = $val->report_spg_detail_date1+$val->report_spg_detail_date2+$val->report_spg_detail_date3+$val->report_spg_detail_date4+$val->report_spg_detail_date5+$val->report_spg_detail_date6+$val->report_spg_detail_date7+$val->report_spg_detail_date8+$val->report_spg_detail_date9+$val->report_spg_detail_date10+$val->report_spg_detail_date11+$val->report_spg_detail_date12+$val->report_spg_detail_date13+$val->report_spg_detail_date14+$val->report_spg_detail_date15+$val->report_spg_detail_date16+$val->report_spg_detail_date17+$val->report_spg_detail_date18+$val->report_spg_detail_date19+$val->report_spg_detail_date20+$val->report_spg_detail_date21+$val->report_spg_detail_date22+$val->report_spg_detail_date23+$val->report_spg_detail_date24+$val->report_spg_detail_date25+$val->report_spg_detail_date26+$val->report_spg_detail_date27+$val->report_spg_detail_date28+$val->report_spg_detail_date29+$val->report_spg_detail_date30+$val->report_spg_detail_date31;
+				if ($val->set_detail_branch_id>0) {
+					$response['data'][] = array(
+						$val->item_name,
+						$val->set_detail_branch_qty,
+						0,
+						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_qty_per_date()"><i class="glyphicon glyphicon-search"></i></a>'
+					);
+					$no++;	
+				}
+			}
+		}
+
+		$response['recordsTotal'] = 0;
+		if ($query_total<>false) {
+			$response['recordsTotal'] = $query_total->num_rows();
+		}
+		$response['recordsFiltered'] = 0;
+		if ($query_filter<>false) {
+			$response['recordsFiltered'] = $query_filter->num_rows();
+		}
+
+		echo json_encode($response);
+	}*/
 
 	public function load_data_where(){
 		$select = 'a.*,c.kongsi_branch_name,b.spg_name,d.month_name';
@@ -282,13 +329,13 @@ class Report_spg extends MY_Controller {
 		}
 	}
 
-	public function load_data_where_qty_per_date($id2){
+	public function load_data_where_qty_per_date($id){
 		$select = 'a.*';
 		$tbl = 'report_spg_details a';
 		//WHERE
 		$where['data'][] = array(
-			'column' => 'report_spg_id',
-			'param'	 => $id2
+			'column' => 'report_spg_detail_id',
+			'param'	 => $id
 		);
 		$query = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,NULL,$where);
 		if ($query<>false) {
@@ -326,6 +373,7 @@ class Report_spg extends MY_Controller {
 					'report_spg_detail_date29' 					=> $val->report_spg_detail_date29,
 					'report_spg_detail_date30' 					=> $val->report_spg_detail_date30,
 					'report_spg_detail_date31' 					=> $val->report_spg_detail_date31,
+					
 				);
 			}
 
@@ -468,6 +516,7 @@ class Report_spg extends MY_Controller {
 			'report_spg_detail_date29' 					=> $this->input->post('date29', TRUE),
 			'report_spg_detail_date30' 					=> $this->input->post('date30', TRUE),
 			'report_spg_detail_date31' 					=> $this->input->post('date31', TRUE),
+			
 			);
 			
 

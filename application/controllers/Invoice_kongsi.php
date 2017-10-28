@@ -198,10 +198,10 @@ class Invoice_kongsi extends MY_Controller {
 						$val->item_name,
 						$val->order_kongsi_detail_qty,
 						$laku,
-						'<input type="number" style="border: none; text-align: right;" class="form-control money" value="'.$val->invoice_kongsi_detail_qty_print.'" onchange="update_qty_print('.$val->invoice_kongsi_detail_id.')" name="i_qty<?='.$val->invoice_kongsi_detail_id.'?>" id="i_qty<?='.$val->invoice_kongsi_detail_id.'?>">
+						'<input type="number" style="border: none; text-align: right;" class="form-control money" value="'.$val->invoice_kongsi_detail_qty_print.'" onchange="update_qty_print('.$val->invoice_kongsi_detail_id.','.$laku.',this.value,'.$val->invoice_kongsi_detail_qty_print.')" name="i_qty<?='.$val->invoice_kongsi_detail_id.'?>" id="i_qty<?='.$val->invoice_kongsi_detail_id.'?>">
 						<input type="hidden" class="form-control money" value="'.$val->invoice_kongsi_detail_id.'" name="i_detail_id<?='.$val->invoice_kongsi_detail_id.'?>" id="i_detail_id<?='.$val->invoice_kongsi_detail_id.'?>">',
 						$val->order_kongsi_detail_price,
-						'<input type="number" style="border: none; text-align: right;" class="form-control money" value="'.$val->invoice_kongsi_detail_discount.'" onchange="update_discount('.$val->invoice_kongsi_detail_id.')" name="i_discount<?='.$val->invoice_kongsi_detail_id.'?>" id="i_discount<?='.$val->invoice_kongsi_detail_id.'?>">',
+						'<input type="number" style="border: none; text-align: right;" class="form-control money" value="'.$val->invoice_kongsi_detail_discount.'" onchange="update_discount('.$val->invoice_kongsi_detail_id.','.$val->invoice_kongsi_detail_discount.',this.value)" name="i_discount<?='.$val->invoice_kongsi_detail_id.'?>" id="i_discount<?='.$val->invoice_kongsi_detail_id.'?>">',
 						$laku*$val->order_kongsi_detail_price,
 						//'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data_detail('.$val->invoice_kongsi_detail_id.')" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data_detail('.$val->invoice_kongsi_detail_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
 					);
@@ -317,11 +317,14 @@ class Invoice_kongsi extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	public function update_qty_print($id){
+	public function update_qty_print($id,$value,$value2){
 		$id2 = $this->input->post('i_detail_id<?='.$id.'?>');
-
+			$qty = $this->input->post('i_qty<?='.$id.'?>');
+			if ($qty>$value) {
+				$qty = $value2;
+			}
 			//UPDATE
-			$data['invoice_kongsi_detail_qty_print'] = $this->input->post('i_qty<?='.$id.'?>');
+			$data['invoice_kongsi_detail_qty_print'] = $qty;
 			
 			//WHERE
 			$where['data'][] = array(
@@ -342,11 +345,15 @@ class Invoice_kongsi extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	public function update_discount($id){
+	public function update_discount($id,$diskon){
 		$id2 = $this->input->post('i_detail_id<?='.$id.'?>');
 
+			$diss = $this->input->post('i_discount<?='.$id.'?>');
+			if ($diss>100) {
+				$diss = $diskon;
+			}
 			//UPDATE
-			$data['invoice_kongsi_detail_discount'] = $this->input->post('i_discount<?='.$id.'?>');
+			$data['invoice_kongsi_detail_discount'] = $diss;
 			
 			//WHERE
 			$where['data'][] = array(

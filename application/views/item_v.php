@@ -14,7 +14,8 @@
 </style>
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#list" data-toggle="tab">List Data</a></li>
+        <li class="active"><a href="#list" data-toggle="tab">List Data Campuran</a></li>
+        <li><a href="#list2" data-toggle="tab">List Data Lagistar</a></li>
         <li><a href="#form" data-toggle="tab">Form Data</a></li>
     </ul>
     <div class="tab-content">
@@ -25,6 +26,30 @@
                     <div id="update" class="alert alert-info" style="display: none;"><h4><i class="glyphicon glyphicon-info-sign"></i> Sukses!</h4>Data telah Direvisi.</div>
                     <div id="delete" class="alert alert-danger" style="display: none;"><h4><i class="glyphicon glyphicon-ban-circle"></i> Sukses!</h4>Data telah Dihapus.</div>
                     <table width="100%" id="table1" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                        <thead>
+                            <tr>
+                                <th>Nama Barang jadi</th>
+                                <th>Berat Perbuah</th>
+                                <th>Jenis</th>
+                                <th>Harga Netto</th>
+                                <th>Config</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                
+            </div>
+
+        </div>
+
+        <div class="tab-pane" id="list2">
+            <div class="box-inner">
+                <div class="box-content">
+                    <div id="create" class="alert alert-success" style="display: none;"><h4><i class="glyphicon glyphicon-check"></i> Sukses!</h4>Data telah Disimpan.</div>
+                    <div id="update" class="alert alert-info" style="display: none;"><h4><i class="glyphicon glyphicon-info-sign"></i> Sukses!</h4>Data telah Direvisi.</div>
+                    <div id="delete" class="alert alert-danger" style="display: none;"><h4><i class="glyphicon glyphicon-ban-circle"></i> Sukses!</h4>Data telah Dihapus.</div>
+                    <table width="100%" id="table4" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                         <thead>
                             <tr>
                                 <th>Nama Barang jadi</th>
@@ -227,6 +252,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         search_data();
+        search_data_lagistar();
         select_list_type();
         search_data_color(0);
         select_list_material();
@@ -242,6 +268,28 @@
             "serverSide": true,
             ajax: {
               url: '<?php echo base_url();?>Item/load_data/'
+            },
+            "columns": [
+              {"name": "item_name"},
+              {"name": "item_weight"},
+              {"name": "item_type_name"},
+              {"name": "item_netto"},
+              {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
+            ],
+            "order": [
+              [0, 'asc']
+            ],
+            "iDisplayLength": 10
+        });
+    }
+
+    function search_data_lagistar() { 
+        $('#table4').DataTable({
+            destroy: true,
+            "processing": true,
+            "serverSide": true,
+            ajax: {
+              url: '<?php echo base_url();?>Item/load_data_lagistar/'
             },
             "columns": [
               {"name": "item_name"},
@@ -329,6 +377,7 @@
               reset();
               reset2();
               search_data();
+              search_data_lagistar();
               $('[href="#list"]').tab('show');
               if (data.alert=='1') {
                 document.getElementById('create').style.display = 'block';

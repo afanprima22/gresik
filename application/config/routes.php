@@ -103,4 +103,7 @@ $route['Transaction/Order-Kongsi']								= 'Order_kongsi';
 $route['Transaction/Set-Kongsi']								= 'Set_branch_kongsi';
 $route['Transaction/Invoice-Kongsi']							= 'Invoice_kongsi';
 //Laporan
-$route['Laporan/Spg']											= 'Report_Spg';
+$route['Laporan/Spg']											= 'Report_spg';
+$route['Laporan/Stock']											= 'Report_stock';
+$route['Laporan/Penjualan']										= 'Report_sales';
+$route['Laporan/Kongsi']										= 'Report_kongsi';

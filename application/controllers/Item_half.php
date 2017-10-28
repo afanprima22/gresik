@@ -87,6 +87,11 @@ class Item_half extends MY_Controller {
 			'column' => 'item_status',
 			'param'	 => 2
 		);
+
+		$where['data'][] = array(
+			'column' => 'a.item_type_id',
+			'param'	 => 2
+		);
 		
 
 		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
@@ -107,6 +112,86 @@ class Item_half extends MY_Controller {
 					);
 					$no++;	
 				}
+			}
+		}
+
+		$response['recordsTotal'] = 0;
+		if ($query_total<>false) {
+			$response['recordsTotal'] = $query_total->num_rows();
+		}
+		$response['recordsFiltered'] = 0;
+		if ($query_filter<>false) {
+			$response['recordsFiltered'] = $query_filter->num_rows();
+		}
+
+		echo json_encode($response);
+	}
+
+	public function load_data_lagistar(){
+		$u = 'disabled'; $d = 'disabled';
+		if (strpos($this->permit, 'u') !== false){
+			$u = '';
+		}else{
+
+		}
+		if (strpos($this->permit, 'd') !== false){
+			$d = '';
+		}
+		$tbl = 'items a';
+		$select = 'a.*,b.item_type_name';
+		//LIMIT
+		$limit = array(
+			'start'  => $this->input->get('start'),
+			'finish' => $this->input->get('length')
+		);
+		//WHERE LIKE
+		$where_like['data'][] = array(
+			'column' => 'item_name,item_weight,item_type_name,item_netto',
+			'param'	 => $this->input->get('search[value]')
+		);
+		//ORDER
+		$index_order = $this->input->get('order[0][column]');
+		$order['data'][] = array(
+			'column' => $this->input->get('columns['.$index_order.'][name]'),
+			'type'	 => $this->input->get('order[0][dir]')
+		);
+		//JOIN
+		$join['data'][] = array(
+			'table' => 'item_types b',
+			'join'	=> 'b.item_type_id=a.item_type_id',
+			'type'	=> 'left'
+		);
+
+		//WHERE
+		$where['data'][] = array(
+			'column' => 'item_status',
+			'param'	 => 2
+		);
+
+		$where['data'][] = array(
+			'column' => 'a.item_type_id',
+			'param'	 => 1
+		);
+
+		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
+		$query_filter = $this->g_mod->select($select,$tbl,NULL,$where_like,$order,$join,$where);
+		$query = $this->g_mod->select($select,$tbl,$limit,$where_like,$order,$join,$where);
+
+		$response['data'] = array();
+		if ($query<>false) {
+			$no = $limit['start']+1;
+			foreach ($query->result() as $val) {
+				if ($val->item_id>0) {
+					$response['data'][] = array(
+						$val->item_name,
+						$val->item_weight,
+						$val->item_type_name,
+						number_format($val->item_netto),
+						'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data('.$val->item_id.'),reset()" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data('.$val->item_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
+					);
+					$no++;	
+				}
+				$response['item_type_name'] = $val->item_type_id;
 			}
 		}
 

@@ -177,7 +177,7 @@ class Set_branch_kongsi extends MY_Controller {
 					$response['data'][] = array(
 						$val->item_name,
 						$val->order_kongsi_detail_qty,
-						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_stock('.$val->kongsi_id.','.$val->order_kongsi_detail_id.','.$val->set_branch_detail_id.')"><i class="glyphicon glyphicon-search"></i></a>'
+						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_stock('.$val->kongsi_id.','.$val->order_kongsi_detail_id.','.$val->set_branch_detail_id.','.$id.')"><i class="glyphicon glyphicon-search"></i></a>'
 					);
 					$no++;	
 				}
@@ -195,6 +195,84 @@ class Set_branch_kongsi extends MY_Controller {
 
 		echo json_encode($response);
 	}
+
+	/*public function load_data_order_kongsi($id){
+		$u = 'disabled'; $d = 'disabled';
+		if (strpos($this->permit, 'u') !== false){
+			$u = '';
+		}else{
+
+		}
+		if (strpos($this->permit, 'd') !== false){
+			$d = '';
+		}
+		$tbl = 'order_kongsi_details a';
+		$select = 'a.*,b.*,c.*';
+		//LIMIT
+		$limit = array(
+			'start'  => $this->input->get('start'),
+			'finish' => $this->input->get('length')
+		);
+		//WHERE LIKE
+		$where_like['data'][] = array(
+			'column' => 'c.item_name',
+			'param'	 => $this->input->get('search[value]')
+		);
+		//ORDER
+		$index_order = $this->input->get('order[0][column]');
+		$order['data'][] = array(
+			'column' => $this->input->get('columns['.$index_order.'][name]'),
+			'type'	 => $this->input->get('order[0][dir]')
+		);
+
+		$join['data'][] = array(
+			'table' => 'order_kongsis b',
+			'join'	=> 'b.order_kongsi_id=a.order_kongsi_id',
+			'type'	=> 'inner'
+		);
+
+		$join['data'][] = array(
+			'table' => 'items c',
+			'join'	=> 'c.item_id=a.item_id',
+			'type'	=> 'inner'
+		);
+
+		//WHERE
+		$where['data'][] = array(
+			'column' => 'b.kongsi_id',
+			'param'	 => $id
+		);
+
+		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
+		$query_filter = $this->g_mod->select($select,$tbl,NULL,$where_like,$order,$join,$where);
+		$query = $this->g_mod->select($select,$tbl,$limit,$where_like,$order,$join,$where);
+
+		$response['data'] = array();
+		if ($query<>false) {
+			$no = $limit['start']+1;
+			foreach ($query->result() as $val) {
+				if ($val->order_kongsi_detail_id>0) {
+					$response['data'][] = array(
+						$val->item_name,
+						$val->order_kongsi_detail_qty,
+						'<a href="#myModal" class="btn btn-info btn-xs" data-toggle="modal" onclick="search_data_stock('.$val->kongsi_id.','.$val->order_kongsi_detail_id.')"><i class="glyphicon glyphicon-search"></i></a>'
+					);
+					$no++;	
+				}
+			}
+		}
+
+		$response['recordsTotal'] = 0;
+		if ($query_total<>false) {
+			$response['recordsTotal'] = $query_total->num_rows();
+		}
+		$response['recordsFiltered'] = 0;
+		if ($query_filter<>false) {
+			$response['recordsFiltered'] = $query_filter->num_rows();
+		}
+
+		echo json_encode($response);
+	}*/
 
 	public function load_data_stock($id,$id2){
 		$u = 'disabled'; $d = 'disabled';
@@ -232,11 +310,11 @@ class Set_branch_kongsi extends MY_Controller {
 		);
 
 
-		$join['data'][] = array(
+		/*$join['data'][] = array(
 			'table' => 'set_branchs e',
 			'join'	=> 'e.kongsi_id =a.kongsi_id',
 			'type'	=> 'inner'
-		);
+		);*/
 
 		$where['data'][]=array(
 			'column'	=>'a.kongsi_id',
@@ -262,7 +340,7 @@ class Set_branch_kongsi extends MY_Controller {
 						$val->kongsi_branch_name,
 						$row['set_detail_branch_qty'],
 						'<input type="number" class="form-control money" name="i_qty<?='.$val->kongsi_branch_id.'?>" id="i_qty<?='.$val->kongsi_branch_id.'?>">
-						<input type="text" class="form-control money" value="'.$row['set_detail_branch_id'].'" name="i_set_id<?='.$val->kongsi_branch_id.'?>" id="i_set_id<?='.$val->kongsi_branch_id.'?>">'
+						<input type="hidden" class="form-control money" value="'.$row['set_detail_branch_id'].'" name="i_set_id<?='.$val->kongsi_branch_id.'?>" id="i_set_id<?='.$val->kongsi_branch_id.'?>">'
 					);
 					$no++;	
 				}
@@ -385,32 +463,27 @@ class Set_branch_kongsi extends MY_Controller {
 	}
 
 	public function action_data_reference($id2){
-		$select = 'a.*,c.item_id,d.order_kongsi_detail_id';
-		$tbl2 = 'order_kongsis a';
-
+		$tbl = 'order_kongsi_details a';
+		$select = 'a.*,b.*,c.*';
+		
 		$join['data'][] = array(
-			'table' => 'kongsis b',
-			'join'	=> 'b.kongsi_id = a.kongsi_id',
+			'table' => 'order_kongsis b',
+			'join'	=> 'b.order_kongsi_id=a.order_kongsi_id',
 			'type'	=> 'inner'
 		);
 
 		$join['data'][] = array(
-			'table' => 'kongsi_prices c',
-			'join'	=> 'c.kongsi_id = b.kongsi_id',
+			'table' => 'items c',
+			'join'	=> 'c.item_id=a.item_id',
 			'type'	=> 'inner'
 		);
 
-		$join['data'][] = array(
-			'table' => 'order_kongsi_details d',
-			'join'	=> 'd.order_kongsi_id = a.order_kongsi_id',
-			'type'	=> 'inner'
-		);
 		//WHERE
-		$where['data'][]=array(
-			'column'	=>'a.kongsi_id',
-			'param'		=>$id2
+		$where['data'][] = array(
+			'column' => 'b.kongsi_id',
+			'param'	 => $id2
 		);		
-		$query = $this->g_mod->select($select,$tbl2,NULL,NULL,NULL,$join,$where);
+		$query = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
 		if ($query<>false) {
 			foreach ($query->result() as $val) {
 				
@@ -482,6 +555,7 @@ class Set_branch_kongsi extends MY_Controller {
 			$data = array(
 			'set_detail_branch_qty' 	=> $this->input->post('i_qty<?='.$row->kongsi_branch_id.'?>'),
 			'set_branch_detail_id' 	=> $this->input->post('detail_id',TRUE),
+			'set_branch_id' 	=> $this->input->post('set_branch_id',TRUE),
 			'item_id' 					=> $row2['item_id'],
 			'kongsi_branch_id' 		=> $row->kongsi_branch_id,
 			'user_id' 						=> $this->user_id
@@ -506,6 +580,7 @@ class Set_branch_kongsi extends MY_Controller {
 		);
 		$delete = $this->g_mod->delete_data_table($this->tbl, $where);
 		$delete2 = $this->g_mod->delete_data_table('set_branch_details', $where);
+		$delete3 = $this->g_mod->delete_data_table('set_detail_branch', $where);
 		if($delete->status) {
 			$response['status'] = '200';
 			$response['alert'] = '3';

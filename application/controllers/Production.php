@@ -571,6 +571,10 @@ class Production extends MY_Controller {
 			$qty_old = $result['production_detail_gs'];
 			$qty = $qty_old - $data['production_detail_gs'];
 			$this->g_mod->update_data_stock('heaps','heap_gs','item_detail_id',$qty,$item_detail_id);
+			
+			$qty_hasil_old = $result['production_detail_qty'];
+			$qty_hasil = $qty_old - $data['production_detail_hasil'];
+			$this->g_mod->update_data_stock('heaps','heap_hasil','item_detail_id',$qty_hasil,$item_detail_id);
 
 			$update = $this->g_mod->update_data_table('production_details', $where, $data);
 			if($update->status) {
@@ -591,11 +595,13 @@ class Production extends MY_Controller {
 			if (!$query) {
 				//$data_heap['heap_bs'] = $data['production_detail_bs'];
 				$data_heap['heap_gs'] 			= $data['production_detail_gs'];
+				$data_heap['heap_hasil'] 			= $data['production_detail_qty'];
 				$data_heap['item_detail_id'] 	= $item_detail_id;
 
 				$this->g_mod->insert_data_table('heaps', NULL, $data_heap);
 			}else{
 				$this->g_mod->update_data_stock('heaps','heap_gs','item_detail_id',-$data['production_detail_gs'],$item_detail_id);
+				$this->g_mod->update_data_stock('heaps','heap_hasil','item_detail_id',-$data['production_detail_qty'],$item_detail_id);
 			}
 
 			if($insert->status) {

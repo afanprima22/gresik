@@ -269,11 +269,14 @@
         });
     }
     
-    function update_qty_print(id){
-      var id2 = document.getElementById("i_id").value;
+    function update_qty_print(id,value,value2,value3){
+      if (parseFloat(value2) >parseFloat(value)) {
+        alert("Qty Yang Di Invoice Tidak Boleh Lebih Dari Qty Yang Laku");
+    }
+        var id2 = document.getElementById("i_id").value;
       $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Invoice_kongsi/update_qty_print/'+id,
+          url  : '<?php echo base_url();?>Invoice_kongsi/update_qty_print/'+id+'/'+value+'/'+value3,
           data : $( "#formall" ).serialize(),
           dataType : "json",
           success:function(data){
@@ -285,11 +288,14 @@
         });
     }
 
-    function update_discount(id){
+    function update_discount(id,diskon,value){
+      if (parseFloat(value)>100) {
+        alert("Tidak Boleh Dari 100%")
+      }
       var id2 = document.getElementById("i_id").value;
       $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Invoice_kongsi/update_discount/'+id,
+          url  : '<?php echo base_url();?>Invoice_kongsi/update_discount/'+id+'/'+diskon,
           data : $( "#formall" ).serialize(),
           dataType : "json",
           success:function(data){

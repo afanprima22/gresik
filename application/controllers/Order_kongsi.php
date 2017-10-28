@@ -543,6 +543,7 @@ class Order_kongsi extends MY_Controller {
 			'param'	 => $id
 		);
 		$delete = $this->g_mod->delete_data_table($this->tbl, $where);
+		$delete2 = $this->g_mod->delete_data_table('order_kongsi_details', $where);
 		if($delete->status) {
 			$response['status'] = '200';
 			$response['alert'] = '3';

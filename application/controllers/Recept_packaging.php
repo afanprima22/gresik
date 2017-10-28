@@ -9,7 +9,7 @@ class Recept_packaging extends MY_Controller {
         parent::__construct();
         $this->check_user_access();
 
-        $akses = $this->g_mod->get_user_acces($this->user_id,76);
+        $akses = $this->g_mod->get_user_acces($this->user_id,86);
 		$this->permit = $akses['permit_acces'];
 	}
 
