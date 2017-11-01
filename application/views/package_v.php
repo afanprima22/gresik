@@ -17,6 +17,7 @@
                                 <th>Stok</th>
                                 <th>Ukuran</th>
                                 <th>Kualitas</th>
+                                <th>Harga</th>
                                 <th>Config</th>
                             </tr>
                         </thead>
@@ -61,6 +62,10 @@
                           <div class="form-group">
                             <label>Kualitas</label>
                             <input type="text" class="form-control" placeholder="Masukkan Kualitas" name="i_quality" id="i_quality" value="">
+                          </div>
+                          <div class="form-group">
+                            <label>Harga</label>
+                            <input type="text" class="form-control" placeholder="Masukkan Harga" name="i_price" id="i_price" value="">
                           </div>
                           
                         </div>
@@ -108,6 +113,7 @@
               {"name": "package_qty"},
               {"name": "package_size"},
               {"name": "package_quality"},
+              {"name": "package_price"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
             "order": [
@@ -201,6 +207,7 @@
               document.getElementById("i_max").value      = data.val[i].package_max;
               document.getElementById("i_size").value     = data.val[i].package_size;
               document.getElementById("i_quality").value  = data.val[i].package_quality;
+              document.getElementById("i_price").value  = data.val[i].package_price;
               $("#img_package").attr("src", data.val[i].package_img);
 
             }

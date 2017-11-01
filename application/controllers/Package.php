@@ -39,7 +39,7 @@ class Package extends MY_Controller {
 
 		$data = array(
 			'aplikasi'		=> 'Gresik Factory',
-			'title_page' 	=> 'Master Data / Bahan Paket',
+			'title_page' 	=> 'Master Data / Bahan Packaging',
 			'title' 		=> 'Kelolah Data',
 			'c'				=> $c
 			);
@@ -89,6 +89,7 @@ class Package extends MY_Controller {
 						$val->package_qty,
 						$val->package_size,
 						$val->package_quality,
+						number_format($val->package_price),
 						'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data('.$val->package_id.'),reset()" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data('.$val->package_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
 					);
 					$no++;	
@@ -127,6 +128,7 @@ class Package extends MY_Controller {
 					'package_max' 			=> $val->package_max,
 					'package_size' 			=> $val->package_size,
 					'package_quality'		=> $val->package_quality,
+					'package_price'		=> $val->package_price,
 					'package_img' 			=> base_url().'images/package/'.$val->package_img,
 				);
 			}
@@ -218,6 +220,7 @@ class Package extends MY_Controller {
 		$data['package_max'] 		= $this->input->post('i_max', TRUE);
 		$data['package_size'] 		= $this->input->post('i_size', TRUE);
 		$data['package_quality'] 	= $this->input->post('i_quality', TRUE);
+		$data['package_price'] 	= $this->input->post('i_price', TRUE);
 			
 
 		return $data;
