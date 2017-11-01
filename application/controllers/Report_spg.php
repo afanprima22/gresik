@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_spg extends MY_Controller {
 	private $any_error = array();
-	public $tbl = 'Report_spgs';
+	public $tbl = 'report_spgs';
 
 	public function __construct() {
         parent::__construct();
