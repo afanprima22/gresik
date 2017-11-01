@@ -37,7 +37,7 @@
                         </thead>
                     </table>
                 </div>
-
+<!--<a href="<?= site_url().'item/export' ?>" class="btn btn-primary" ><i class="fa fa-upload"></i><strong>&nbsp;Export</strong></a>-->
                 
             </div>
 

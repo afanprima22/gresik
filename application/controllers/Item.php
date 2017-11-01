@@ -8,7 +8,7 @@ class Item extends MY_Controller {
 	public function __construct() {
         parent::__construct();
         $this->check_user_access();
-        //$this->load->library('PHPExcel');
+        $this->load->library('PHPExcel');
 
         $akses = $this->g_mod->get_user_acces($this->user_id,43);
 		$this->permit = $akses['permit_acces'];
@@ -954,6 +954,101 @@ class Item extends MY_Controller {
             }
 
             //return $inputFileName;
+    }
+
+    public function export(){
+        $ambildata = $this->g_mod->select_manual_for('select * from items limit 8000,2000');
+         
+        if($ambildata){
+            $objPHPExcel = new PHPExcel();
+            // Set properties
+            $objPHPExcel->getProperties()
+                  ->setCreator("AP") //creator
+                    ->setTitle("Programmer - Regional Planning and Monitoring, XL AXIATA");  //file title
+ 
+            $objset = $objPHPExcel->setActiveSheetIndex(0); //inisiasi set object
+            $objget = $objPHPExcel->getActiveSheet();  //inisiasi get object
+ 
+            $objget->setTitle('Sample Sheet'); //sheet title
+             
+            $objget->getStyle("A1:F1")->applyFromArray(
+                array(
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => array('rgb' => '92d050')
+                    ),
+                    'font' => array(
+                        'color' => array('rgb' => '000000')
+                    )
+                )
+            );
+ 
+            //table header
+            $cols = array("A","B","C","D","E","F");
+             
+            $val = array("ID","Kode","Nama","Harga1","Harga2","Netto");
+             
+            for ($a=0;$a<5; $a++) 
+            {
+                $objset->setCellValue($cols[$a].'1', $val[$a]);
+                 
+                //Setting lebar cell
+                $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(25); // NAMA
+                $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(25); // ALAMAT
+                $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(25); // Kontak
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25); // Kontak
+                $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25); // Kontak
+                $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25); // Kontak
+
+             
+                $style = array(
+                    'alignment' => array(
+                        'horizontal' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    )
+                );
+                $objPHPExcel->getActiveSheet()->getStyle($cols[$a].'1')->applyFromArray($style);
+            }
+             
+            $baris  = 2;
+            foreach ($ambildata->result() as $val){
+                 
+                //pemanggilan sesuaikan dengan nama kolom tabel
+                $objset->setCellValue("A".$baris, $val->item_id); //membaca data nama
+                $objset->setCellValue("B".$baris, $val->item_code); //membaca data alamat
+                $objset->setCellValue("C".$baris, $val->item_name); //membaca data kontak
+                $objset->setCellValue("D".$baris, 0); //membaca data kontak
+                $objset->setCellValue("E".$baris, 0); //membaca data kontak
+                $objset->setCellValue("F".$baris, 0); //membaca data kontak
+                 
+                //Set number value
+                $objPHPExcel->getActiveSheet()->getStyle('C1:C'.$baris)->getNumberFormat()->setFormatCode('0');
+                 
+                $baris++;
+            }
+             
+           
+ 			
+ 			//$result = $this->invoice_day_model->read_id($id);
+
+            $objPHPExcel->setActiveSheetIndex(0);  
+            $filename = "Barang";//$result['invoice_code'].date("Y-m-d");
+
+            $objPHPExcel->getActiveSheet()->setTitle('Data Export');
+
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            //sesuaikan headernya 
+	        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+	        header("Cache-Control: no-store, no-cache, must-revalidate");
+	        header("Cache-Control: post-check=0, pre-check=0", false);
+	        header("Pragma: no-cache");
+	        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	        //ubah nama file saat diunduh
+	        header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+ 
+            $objWriter->save('php://output');
+        }else{
+            redirect('index');
+        }
     }
 	/* end Function */
 
