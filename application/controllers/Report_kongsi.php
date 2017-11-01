@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_kongsi extends MY_Controller {
 	private $any_error = array();
-	public $tbl = 'Report_kongsis';
+	public $tbl = 'report_kongsis';
 
 	public function __construct() {
         parent::__construct();
@@ -57,7 +57,7 @@ class Report_kongsi extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$tbl = 'Report_kongsis a';
+		$tbl = 'report_kongsis a';
 		$select = 'a.*,b.kongsi_name';
 		//LIMIT
 		$limit = array(
@@ -363,7 +363,7 @@ class Report_kongsi extends MY_Controller {
 
 	public function load_data_where(){
 		$select = 'a.*,b.kongsi_name';
-		$tbl = 'Report_kongsis a';
+		$tbl = 'report_kongsis a';
 		//JOIN
 		$join['data'][]=array(
 			'table'	=>'kongsis b',

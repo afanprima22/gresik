@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_sales extends MY_Controller {
 	private $any_error = array();
-	public $tbl = 'Report_saless';
+	public $tbl = 'report_saless';
 
 	public function __construct() {
         parent::__construct();
@@ -57,7 +57,7 @@ class Report_sales extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$tbl = 'Report_saless a';
+		$tbl = 'report_saless a';
 		$select = '*';
 		//LIMIT
 		$limit = array(
@@ -470,7 +470,7 @@ class Report_sales extends MY_Controller {
 
 	public function load_data_where(){
 		$select = 'a.*,b.customer_name,c.location_name as prov,d.location_name as kab,e.location_name as kec,f.location_name as kel';
-		$tbl = 'Report_saless a';
+		$tbl = 'report_saless a';
 		//JOIN
 		$join['data'][]=array(
 			'table'	=>'customers b',
