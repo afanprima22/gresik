@@ -119,7 +119,7 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>receipt/load_data/'
+              url: '<?php echo base_url();?>Receipt_item/load_data/'
             },
             "columns": [
               {"name": "receipt_code"},
@@ -140,7 +140,7 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>receipt/load_data_detail/'+id
+              url: '<?php echo base_url();?>Receipt_item/load_data_detail/'+id
             },
             "columns": [
               {"name": "receipt_detail_id"},
@@ -179,7 +179,7 @@
     function action_data(){
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>receipt/action_data/',
+          url  : '<?php echo base_url();?>Receipt_item/action_data/',
           data : $( "#formall" ).serialize(),
           dataType : "json",
           success:function(data){
@@ -207,7 +207,7 @@
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>receipt/delete_data',
+                url: '<?php echo base_url();?>Receipt_item/delete_data',
                 data: 'id='+id,
                 type: 'POST',
                 dataType: 'json',
@@ -230,7 +230,7 @@
     function edit_data(id) {
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>receipt/load_data_where/',
+          url  : '<?php echo base_url();?>Receipt_item/load_data_where/',
           data : "id="+id,
           dataType : "json",
           success:function(data){
@@ -254,7 +254,7 @@
           multiple: false,
           allowClear: true,
           ajax: {
-            url: '<?php echo base_url();?>Purchase_material/load_data_select_purchase_material/',
+            url: '<?php echo base_url();?>Purchase_item/load_data_select_purchase_item/',
             dataType: 'json',
             delay: 100,
             cache: true,
@@ -290,7 +290,7 @@
       function save_detail(value,detail_id,type){
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>receipt/action_data_detail/',
+          url  : '<?php echo base_url();?>Receipt_item/action_data_detail/',
           data : {value:value,detail_id:detail_id,type:type},
           dataType : "json",
           success:function(data){

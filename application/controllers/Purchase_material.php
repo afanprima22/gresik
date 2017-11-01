@@ -604,7 +604,7 @@ class Purchase_material extends MY_Controller {
 		return $data;
 	}
 	
-	public function load_data_select_purchase(){
+	public function load_data_select_purchase_material(){
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'purchase_code',
@@ -616,7 +616,12 @@ class Purchase_material extends MY_Controller {
 			'type'	 => 'ASC'
 		);
 
-		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,NULL);
+		$where['data'][]=array(
+			'column'	=>'purchase_type',
+			'param'		=>3
+			);
+
+		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,$where);
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {

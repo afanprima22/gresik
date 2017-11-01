@@ -57,7 +57,7 @@ class Report_spg extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$tbl = 'Report_spgs a';
+		$tbl = 'report_spgs a';
 		$select = 'a.*,b.spg_name,c.kongsi_branch_name,d.month_name';
 		//LIMIT
 		$limit = array(
@@ -286,7 +286,7 @@ class Report_spg extends MY_Controller {
 
 	public function load_data_where(){
 		$select = 'a.*,c.kongsi_branch_name,b.spg_name,d.month_name';
-		$tbl = 'Report_spgs a';
+		$tbl = 'report_spgs a';
 		//JOIN
 		$join['data'][] = array(
 			'table' => 'spgs b',

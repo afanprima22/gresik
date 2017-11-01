@@ -68,7 +68,7 @@
                               <div class="form-group">
                                 <table width="100%" id="table2" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                                   <thead>
-                                    <tr>
+                                    <!--<tr>
                                       <td colspan="7">
                                         <div class="form-group">
                                           <label>Pilih Type :</label>
@@ -81,16 +81,16 @@
                                               <input type="radio" onclick="type_detail(2)" name="i_type" id="inlineRadio2" value="2"> Barang Set jadi
                                           </label>
                                           &nbsp;&nbsp;&nbsp;&nbsp;
-                                          <!--<label>
+                                          <label>
                                               <input type="radio" onclick="type_detail(3)" name="i_type" id="inlineRadio3" value="3"> Sperpart
                                           </label>
                                           &nbsp;&nbsp;&nbsp;&nbsp;
                                           <label>
                                               <input type="radio" onclick="type_detail(4)" name="i_type" id="inlineRadio4" value="4"> Material
-                                          </label>-->
+                                          </label>
                                         </div>
                                       </td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                       <td><input type="text" class="form-control" name="i_detail_id" placeholder="Auto" readonly=""></td>
                                       <td>
@@ -107,7 +107,7 @@
                                             </select>
                                           </div>
                                         </div>
-                                        <div id="sperpart" style="display: none;">
+                                        <div id="sperpart">
                                           <select id="i_sperpart" class="form-control select2" name="i_sperpart" style="width: 100%;" onchange="get_sperpart_price(this.value)">
                                           </select>
                                         </div>
@@ -164,7 +164,7 @@
         //select_list_item();
         search_data_detail(0);
         select_list_material();
-        select_list_sperpart();
+        select_list_sperpart_industri();
     });
 
     function type_detail(id){
@@ -198,7 +198,7 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>Purchase_item/load_data/'
+              url: '<?php echo base_url();?>Purchase_sperpart_industri/load_data/'
             },
             "columns": [
               {"name": "purchase_code"},
@@ -219,7 +219,7 @@
             "processing": true,
             "serverSide": true,
             ajax: {
-              url: '<?php echo base_url();?>Purchase_item/load_data_detail/'+id
+              url: '<?php echo base_url();?>Purchase_sperpart_industri/load_data_detail/'+id
             },
             "columns": [
               {"name": "purchase_detail_id"},
@@ -247,7 +247,7 @@
     function action_data(){
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Purchase_item/action_data/',
+          url  : '<?php echo base_url();?>Purchase_sperpart_industri/action_data/',
           data : $( "#formall" ).serialize(),
           dataType : "json",
           success:function(data){
@@ -276,7 +276,7 @@
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>Purchase_item/delete_data',
+                url: '<?php echo base_url();?>Purchase_sperpart_industri/delete_data',
                 data: 'id='+id,
                 type: 'POST',
                 dataType: 'json',
@@ -300,7 +300,7 @@
     function edit_data(id) {
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Purchase_item/load_data_where/',
+          url  : '<?php echo base_url();?>Purchase_sperpart_industri/load_data_where/',
           data : "id="+id,
           dataType : "json",
           success:function(data){
@@ -350,13 +350,13 @@
         });
       }
 
-      function select_list_sperpart() {
+      function select_list_sperpart_industri() {
         $('#i_sperpart').select2({
           placeholder: 'Pilih Sperpart',
           multiple: false,
           allowClear: true,
           ajax: {
-            url: '<?php echo base_url();?>Sperpart/load_data_select_sperpart/',
+            url: '<?php echo base_url();?>Sperpart_industri/load_data_select_sperpart_industri/',
             dataType: 'json',
             delay: 100,
             cache: true,
@@ -488,7 +488,7 @@
 
       function reset2(){
         $('#i_partner option').remove();
-         $('input[name="i_id"]').val("");
+        search_data_detail(0);
       }
 
       function save_detail(){
@@ -502,7 +502,7 @@
 
         $.ajax({
           type : "POST",
-          url  : '<?php echo base_url();?>Purchase_item/action_data_detail/',
+          url  : '<?php echo base_url();?>Purchase_sperpart_industri/action_data_detail/',
           data : $( "#formall" ).serialize(),
           dataType : "json",
           success:function(data){
@@ -525,13 +525,13 @@
         $('input[name="i_detail_discount"]').val("");
         $('input[name="i_detail_price"]').val("");
 
-        search_data_detail(0);
+        
       }
 
       function edit_data_detail(id){
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Purchase_item/load_data_where_detail/',
+          url  : '<?php echo base_url();?>Purchase_sperpart_industri/load_data_where_detail/',
           data : "id="+id,
           dataType : "json",
           success:function(data){
@@ -549,26 +549,32 @@
                 document.getElementById('item').style.display     = 'block';
                 document.getElementById('sperpart').style.display = 'none';
                 document.getElementById('material').style.display = 'none';
-                document.getElementById("inlineRadio1").checked = true;
+                //document.getElementById("inlineRadio1").checked = true;
               }else if (data.val[i].purchase_detail_type == 2) {
                 $("#i_item").append('<option value="'+data.val[i].item_half_id+'" selected>'+data.val[i].item_half_name+'</option>');
                 $("#i_item_detail").append('<option value="'+data.val[i].purchase_detail_data_id+'" selected>'+data.val[i].item_half_detail_color+'</option>');
                 document.getElementById('item').style.display     = 'block';
                 document.getElementById('sperpart').style.display = 'none';
                 document.getElementById('material').style.display = 'none';
-                document.getElementById("inlineRadio2").checked = true;
+                //document.getElementById("inlineRadio2").checked = true;
               }else if (data.val[i].purchase_detail_type == 3) {
                 $("#i_sperpart").append('<option value="'+data.val[i].purchase_detail_data_id+'" selected>'+data.val[i].sperpart_name+'</option>');
                 document.getElementById('item').style.display     = 'none';
                 document.getElementById('sperpart').style.display = 'block';
                 document.getElementById('material').style.display = 'none';
-                document.getElementById("inlineRadio3").checked = true;
+                //document.getElementById("inlineRadio3").checked = true;
               }else if (data.val[i].purchase_detail_type == 4) {
                 $("#i_material").append('<option value="'+data.val[i].purchase_detail_data_id+'" selected>'+data.val[i].material_name+'</option>');
                 document.getElementById('item').style.display     = 'none';
                 document.getElementById('sperpart').style.display = 'none';
                 document.getElementById('material').style.display = 'block';
-                document.getElementById("inlineRadio4").checked = true;
+               //document.getElementById("inlineRadio4").checked = true;
+              }else if (data.val[i].purchase_detail_type == 5) {
+                $("#i_sperpart").append('<option value="'+data.val[i].purchase_detail_data_id+'" selected>'+data.val[i].sperpart_name+'</option>');
+                document.getElementById('item').style.display     = 'none';
+                document.getElementById('sperpart').style.display = 'block';
+                document.getElementById('material').style.display = 'none';
+                //document.getElementById("inlineRadio3").checked = true;
               }
 
 
@@ -588,7 +594,7 @@
         var a = confirm("Anda yakin ingin menghapus record ini ?");
         if(a==true){
             $.ajax({
-                url: '<?php echo base_url();?>Purchase_item/delete_data_detail',
+                url: '<?php echo base_url();?>Purchase_sperpart_industri/delete_data_detail',
                 data: 'id='+id_detail,
                 type: 'POST',
                 dataType: 'json',
@@ -619,7 +625,7 @@
     function get_sperpart_price(id) {
         $.ajax({
           type : "GET",
-          url  : '<?php echo base_url();?>Sperpart/load_data_where/',
+          url  : '<?php echo base_url();?>Sperpart_industri/load_data_where/',
           data : "id="+id,
           dataType : "json",
           success:function(data){

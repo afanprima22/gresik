@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class receipt extends MY_Controller {
+class Receipt_item extends MY_Controller {
 	private $any_error = array();
 	public $tbl = 'receipts';
 
@@ -9,7 +9,7 @@ class receipt extends MY_Controller {
         parent::__construct();
         $this->check_user_access();
 
-        $akses = $this->g_mod->get_user_acces($this->user_id,59);
+        $akses = $this->g_mod->get_user_acces($this->user_id,92);
 		$this->permit = $akses['permit_acces'];
 	}
 
@@ -39,12 +39,12 @@ class receipt extends MY_Controller {
 
 		$data = array(
 			'aplikasi'		=> 'Gresik Factory',
-			'title_page' 	=> 'Transaction / Penerimaan Material',
+			'title_page' 	=> 'Transaction / Penerimaan / Barang',
 			'title' 		=> 'Kelolah Data',
 			'c'				=> $c
 			);
 
-		$this->open_page('receipt_v', $data);
+		$this->open_page('receipt_item_v', $data);
 	}
 
 	public function load_data(){
@@ -84,7 +84,7 @@ class receipt extends MY_Controller {
 
 		$where['data'][]=array(
 			'column'	=>'a.receipt_type',
-			'param'		=>1
+			'param'		=>4
 			);
 
 		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
@@ -230,9 +230,6 @@ class receipt extends MY_Controller {
 					}elseif ($val->purchase_detail_type == 3) {
 						$ket = $val->sperpart_name;
 						$type = 'Sperpart Kendaraan';
-					}elseif ($val->purchase_detail_type == 5) {
-						$ket = $val->sperpart_name;
-						$type = 'Sperpart Industri';
 					}
 
 					$response['data'][] = array(
@@ -449,7 +446,7 @@ class receipt extends MY_Controller {
 
 		$data['purchase_id'] 		= $this->input->post('i_purchase', TRUE);
 		$data['receipt_date'] 		= $this->format_date_day_mid($this->input->post('i_date', TRUE));
-		$data['receipt_type'] 		= 1;
+		$data['receipt_type'] 		= 4;
 			
 
 		return $data;

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Purchase_item extends MY_Controller {
+class Purchase_sperpart_industri extends MY_Controller {
 	private $any_error = array();
 	public $tbl = 'purchases';
 
@@ -9,7 +9,7 @@ class Purchase_item extends MY_Controller {
         parent::__construct();
         $this->check_user_access();
 
-        $akses = $this->g_mod->get_user_acces($this->user_id,72);
+        $akses = $this->g_mod->get_user_acces($this->user_id,89);
 		$this->permit = $akses['permit_acces'];
 	}
 
@@ -39,12 +39,12 @@ class Purchase_item extends MY_Controller {
 
 		$data = array(
 			'aplikasi'		=> 'Gresik Factory',
-			'title_page' 	=> 'Transaction / Pembelian / Barang',
+			'title_page' 	=> 'Transaction / Pembelian / Sperpart Industri',
 			'title' 		=> 'Kelolah Data',
 			'c'				=> $c
 			);
 
-		$this->open_page('purchase_item_v', $data);
+		$this->open_page('purchase_sperpart_industri_v', $data);
 	}
 
 	public function load_data(){
@@ -85,7 +85,7 @@ class Purchase_item extends MY_Controller {
 		//WHERE
 		$where['data'][] = array(
 			'column' => 'a.purchase_type',
-			'param'	 => 1
+			'param'	 => 4
 		);
 
 		$query_total = $this->g_mod->select($select,$tbl,NULL,NULL,NULL,$join,$where);
@@ -201,7 +201,7 @@ class Purchase_item extends MY_Controller {
 		//JOIN
 		$join['data'][] = array(
 			'table' => 'sperparts e',
-			'join'	=> 'e.sperpart_id=a.purchase_detail_data_id and purchase_detail_type = 3',
+			'join'	=> 'e.sperpart_id=a.purchase_detail_data_id and purchase_detail_type = 5',
 			'type'	=> 'left'
 		);
 
@@ -232,7 +232,10 @@ class Purchase_item extends MY_Controller {
 						$type = 'Material';
 					}elseif ($val->purchase_detail_type == 3) {
 						$ket = $val->sperpart_name;
-						$type = 'Sperpart';
+						$type = 'Sperpart Kendaraan';
+					}elseif ($val->purchase_detail_type == 5) {
+						$ket = $val->sperpart_name;
+						$type = 'Sperpart Industri';
 					}
 
 					$response['data'][] = array(
@@ -341,7 +344,7 @@ class Purchase_item extends MY_Controller {
 		//JOIN
 		$join['data'][] = array(
 			'table' => 'sperparts e',
-			'join'	=> 'e.sperpart_id=a.purchase_detail_data_id and purchase_detail_type = 3',
+			'join'	=> 'e.sperpart_id=a.purchase_detail_data_id and purchase_detail_type = 5',
 			'type'	=> 'left'
 		);
 
@@ -566,7 +569,7 @@ class Purchase_item extends MY_Controller {
 			$data['purchase_code'] 		= $this->get_code_purchase();
 		}
 
-		$data['purchase_type'] 	= 1;
+		$data['purchase_type'] 	= 4;
 		$data['partner_id'] 	= $this->input->post('i_partner', TRUE);
 		$data['purchase_date'] 		= $this->format_date_day_mid($this->input->post('i_date', TRUE));
 			
@@ -596,7 +599,7 @@ class Purchase_item extends MY_Controller {
 			'purchase_detail_qty' 			=> $this->input->post('i_detail_qty', TRUE),
 			'purchase_detail_discount' 		=> $this->input->post('i_detail_discount', TRUE),
 			'purchase_detail_price' 		=> $this->input->post('i_detail_price', TRUE),
-			'purchase_detail_type' 			=> $this->input->post('i_type', TRUE),
+			'purchase_detail_type' 			=> 5,//$this->input->post('i_type', TRUE),
 			'user_id' 						=> $this->user_id
 			);
 			
@@ -604,7 +607,7 @@ class Purchase_item extends MY_Controller {
 		return $data;
 	}
 	
-	public function load_data_select_purchase_item(){
+	public function load_data_select_purchase_sperpart_industri(){
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'purchase_code',
@@ -618,7 +621,7 @@ class Purchase_item extends MY_Controller {
 
 		$where['data'][]=array(
 			'column'	=>'purchase_type',
-			'param'		=>1
+			'param'		=>4
 			);
 
 		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,$where);

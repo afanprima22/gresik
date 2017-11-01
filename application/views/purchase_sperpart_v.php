@@ -568,6 +568,12 @@
                 document.getElementById('sperpart').style.display = 'none';
                 document.getElementById('material').style.display = 'block';
                 document.getElementById("inlineRadio4").checked = true;
+              }else if (data.val[i].purchase_detail_type == 5) {
+                $("#i_sperpart").append('<option value="'+data.val[i].purchase_detail_data_id+'" selected>'+data.val[i].sperpart_name+'</option>');
+                document.getElementById('item').style.display     = 'none';
+                document.getElementById('sperpart').style.display = 'block';
+                document.getElementById('material').style.display = 'none';
+                document.getElementById("inlineRadio3").checked = true;
               }
 
 

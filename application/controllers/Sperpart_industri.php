@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sperpart extends MY_Controller {
+class Sperpart_industri extends MY_Controller {
 	private $any_error = array();
 	public $tbl = 'sperparts';
 
@@ -9,7 +9,7 @@ class Sperpart extends MY_Controller {
         parent::__construct();
         $this->check_user_access();
 
-        $akses = $this->g_mod->get_user_acces($this->user_id,45);
+        $akses = $this->g_mod->get_user_acces($this->user_id,88);
 		$this->permit = $akses['permit_acces'];
 	}
 
@@ -38,12 +38,12 @@ class Sperpart extends MY_Controller {
 
 		$data = array(
 			'aplikasi'		=> 'Gresik Factory',
-			'title_page' 	=> 'Setup Data / Sperpart-Kendaraan',
+			'title_page' 	=> 'Setup Data / Sperpart-Industri',
 			'title' 		=> 'Kelolah Data',
 			'c'				=> $c
 			);
 
-		$this->open_page('sperpart_v', $data);
+		$this->open_page('sperpart_industri_v', $data);
 	}
 
 	public function load_data(){
@@ -76,7 +76,7 @@ class Sperpart extends MY_Controller {
 
 		$where['data'][]=array(
 			'column'	=>'sperpart_type',
-			'param'		=>1
+			'param'		=>2
 			);
 
 		$query_total = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,$where);
@@ -193,14 +193,14 @@ class Sperpart extends MY_Controller {
 			'sperpart_min' 		=> $this->input->post('i_min', TRUE),
 			'sperpart_max' 		=> $this->input->post('i_max', TRUE),
 			'sperpart_price' 	=> $this->input->post('i_price', TRUE),
-			'sperpart_type' 	=> 1,
-			'sperpart_qty' 		=> $this->input->post('i_stock', TRUE)
+			'sperpart_qty' 		=> $this->input->post('i_stock', TRUE),
+			'sperpart_type' 		=> 2
 			);
 
 		return $data;
 	}
 
-	public function load_data_select_sperpart(){
+	public function load_data_select_sperpart_industri(){
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'sperpart_name',
@@ -214,7 +214,7 @@ class Sperpart extends MY_Controller {
 
 		$where['data'][]=array(
 			'column'	=>'sperpart_type',
-			'param'		=>1
+			'param'		=>2
 			);
 		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,$where);
 		$response['items'] = array();

@@ -232,7 +232,10 @@ class Purchase_sperpart extends MY_Controller {
 						$type = 'Material';
 					}elseif ($val->purchase_detail_type == 3) {
 						$ket = $val->sperpart_name;
-						$type = 'Sperpart';
+						$type = 'Sperpart Kendaraan';
+					}elseif ($val->purchase_detail_type == 5) {
+						$ket = $val->sperpart_name;
+						$type = 'Sperpart Industri';
 					}
 
 					$response['data'][] = array(
@@ -604,7 +607,7 @@ class Purchase_sperpart extends MY_Controller {
 		return $data;
 	}
 	
-	public function load_data_select_purchase(){
+	public function load_data_select_purchase_sperpart_kendaraan(){
 		//WHERE LIKE
 		$where_like['data'][] = array(
 			'column' => 'purchase_code',
@@ -616,7 +619,12 @@ class Purchase_sperpart extends MY_Controller {
 			'type'	 => 'ASC'
 		);
 
-		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,NULL);
+		$where['data'][]=array(
+			'column'	=>'purchase_type',
+			'param'		=>2
+			);
+
+		$query = $this->g_mod->select('*',$this->tbl,NULL,$where_like,$order,NULL,$where);
 		$response['items'] = array();
 		if ($query<>false) {
 			foreach ($query->result() as $val) {
