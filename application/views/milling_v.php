@@ -272,6 +272,7 @@
               document.getElementById("i_id").value             = data.val[i].milling_id;
               document.getElementById("datepicker").value       = data.val[i].milling_date;
 
+              $("#i_employee").append('<option value="'+data.val[i].employee_id+'" selected>'+data.val[i].employee_name+'</option>');
               $("#i_sales").append('<option value="'+data.val[i].sales_id+'" selected>'+data.val[i].sales_name+'</option>');
               $("#i_customer").append('<option value="'+data.val[i].customer_id+'" selected>'+data.val[i].customer_name+'</option>');
 

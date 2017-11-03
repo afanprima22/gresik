@@ -18,7 +18,7 @@
                     <table width="100%" id="table1" class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Nama Kongsi</th>
                                 <th>Tanggal</th>
                                 <th>Config</th>
                             </tr>

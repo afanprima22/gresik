@@ -57,7 +57,7 @@ class Package extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$select = '*';
+		$select = 'a.*,b.unit_name';
 		//LIMIT
 		$limit = array(
 			'start'  => $this->input->get('start'),
@@ -75,9 +75,15 @@ class Package extends MY_Controller {
 			'type'	 => $this->input->get('order[0][dir]')
 		);
 
-		$query_total = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,NULL);
-		$query_filter = $this->g_mod->select($select,$this->tbl,NULL,$where_like,$order,NULL,NULL);
-		$query = $this->g_mod->select($select,$this->tbl,$limit,$where_like,$order,NULL,NULL);
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+
+		$query_total = $this->g_mod->select($select,'packages a',NULL,NULL,NULL,$join,NULL);
+		$query_filter = $this->g_mod->select($select,'packages a',NULL,$where_like,$order,$join,NULL);
+		$query = $this->g_mod->select($select,'packages a',$limit,$where_like,$order,$join,NULL);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -90,6 +96,7 @@ class Package extends MY_Controller {
 						$val->package_size,
 						$val->package_quality,
 						number_format($val->package_price),
+						$val->unit_name,
 						'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data('.$val->package_id.'),reset()" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data('.$val->package_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
 					);
 					$no++;	
@@ -116,7 +123,14 @@ class Package extends MY_Controller {
 			'column' => 'package_id',
 			'param'	 => $this->input->get('id')
 		);
-		$query = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,$where);
+
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+
+		$query = $this->g_mod->select($select,'packages a',NULL,NULL,NULL,$join,$where);
 		if ($query<>false) {
 
 			foreach ($query->result() as $val) {
@@ -129,6 +143,8 @@ class Package extends MY_Controller {
 					'package_size' 			=> $val->package_size,
 					'package_quality'		=> $val->package_quality,
 					'package_price'		=> $val->package_price,
+					'unit_id'			=>$val->unit_id,
+					'unit_name'			=>$val->unit_name,
 					'package_img' 			=> base_url().'images/package/'.$val->package_img,
 				);
 			}
@@ -221,6 +237,7 @@ class Package extends MY_Controller {
 		$data['package_size'] 		= $this->input->post('i_size', TRUE);
 		$data['package_quality'] 	= $this->input->post('i_quality', TRUE);
 		$data['package_price'] 	= $this->input->post('i_price', TRUE);
+		$data['unit_id'] 	= $this->input->post('i_unit', TRUE);
 			
 
 		return $data;

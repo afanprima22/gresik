@@ -18,6 +18,7 @@
                                 <th>Ukuran</th>
                                 <th>Kualitas</th>
                                 <th>Harga</th>
+                                <th>Satuan</th>
                                 <th>Config</th>
                             </tr>
                         </thead>
@@ -67,6 +68,11 @@
                             <label>Harga</label>
                             <input type="text" class="form-control" placeholder="Masukkan Harga" name="i_price" id="i_price" value="">
                           </div>
+                          <div class="form-group">
+                            <label>Jenis Satuan</label>
+                            <select class="form-control select2" name="i_unit" id="i_unit" style="width: 100%;" required="required">
+                            </select>
+                          </div>
                           
                         </div>
                         <div class="col-md-6">
@@ -98,6 +104,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         search_data();
+        select_list_unit();
     });
 
     function search_data() { 
@@ -114,6 +121,7 @@
               {"name": "package_size"},
               {"name": "package_quality"},
               {"name": "package_price"},
+              {"name": "unit_name"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
             "order": [
@@ -209,6 +217,7 @@
               document.getElementById("i_quality").value  = data.val[i].package_quality;
               document.getElementById("i_price").value  = data.val[i].package_price;
               $("#img_package").attr("src", data.val[i].package_img);
+              $("#i_unit").append('<option value="'+data.val[i].unit_id+'" selected>'+data.val[i].unit_name+'</option>');
 
             }
           }
@@ -219,7 +228,42 @@
 
     function reset2(){
       $('#img_package').attr('src', '');
+       $('#i_unit option').remove();
     }
+
+    function select_list_unit() {
+        $('#i_unit').select2({
+          placeholder: 'Pilih Satuan',
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: '<?php echo base_url();?>Unit/load_data_select_unit/',
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult,
+          templateSelection: FormatSelection,
+        });
+      }
 </script>
 </body>
 </html>

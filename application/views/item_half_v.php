@@ -89,6 +89,11 @@
                             </select>
                           </div>
                           <div class="form-group">
+                            <label>Jenis Satuan</label>
+                            <select class="form-control select2" name="i_unit" id="i_unit" style="width: 100%;" required="required">
+                            </select>
+                          </div>
+                          <div class="form-group">
                             <label>Type Bahan</label>
                             <select class="form-control select2" name="i_material_type" id="i_material_type" style="width: 100%;" required="required">
                             </select>
@@ -110,6 +115,10 @@
                           
                         </div>
                         <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Isi Per Satuan</label>
+                            <input type="number" class="form-control" name="i_qty_per_unit" id="i_qty_per_unit" placeholder="Masukkan Berat RN" required="required" value="">
+                          </div>
                           <div class="form-group">
                             <label>Qty Stock</label>
                             <input type="number" class="form-control" name="i_stock" id="i_stock" placeholder="Masukkan Qty Stock" required="required" value="">
@@ -240,6 +249,7 @@
         search_data();
         search_data_lagistar();
         select_list_type();
+        select_list_unit();
         search_data_color(0);
         select_list_material();
         select_list_type_material();
@@ -412,6 +422,7 @@
             for(var i=0; i<data.val.length;i++){
               document.getElementById("i_id").value             = data.val[i].item_id;
               document.getElementById("i_code").value           = data.val[i].item_code;
+              document.getElementById("i_qty_per_unit").value           = data.val[i].item_per_unit;
               document.getElementById("i_name").value           = data.val[i].item_name;
               document.getElementById("i_weight").value         = data.val[i].item_weight;
               document.getElementById("i_weight_rn").value      = data.val[i].item_weight_rn;
@@ -420,6 +431,7 @@
               document.getElementById("i_netto").value          = data.val[i].item_netto;
               document.getElementById("i_cost").value           = data.val[i].item_cost;
               document.getElementById("i_stock").value          = data.val[i].item_stock;
+              $("#i_unit").append('<option value="'+data.val[i].unit_id+'" selected>'+data.val[i].unit_name+'</option>');
               $("#i_type").append('<option value="'+data.val[i].item_type_id+'" selected>'+data.val[i].item_type_name+'</option>');
               $("#i_material_type").append('<option value="'+data.val[i].material_type_id+'" selected>'+data.val[i].material_type_name+'</option>');
 
@@ -538,8 +550,44 @@
         });
       }
 
+      function select_list_unit() {
+        $('#i_unit').select2({
+          placeholder: 'Pilih Satuan',
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: '<?php echo base_url();?>Unit/load_data_select_unit/',
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult,
+          templateSelection: FormatSelection,
+        });
+      }
+
       function reset2(){
         $('#i_type option').remove();
+        $('#i_unit option').remove();
+        $('#i_category option').remove();
         $('#i_material_type option').remove();
         search_data_color(0);
       }

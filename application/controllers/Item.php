@@ -360,7 +360,7 @@ class Item extends MY_Controller {
 	}
 
 	public function load_data_where(){
-		$select = 'a.*,b.item_type_name,c.material_type_name,d.category_item_name';
+		$select = 'a.*,b.item_type_name,c.material_type_name,d.category_item_name,e.unit_name';
 		$tbl = 'items a';
 		//JOIN
 		$join['data'][] = array(
@@ -381,6 +381,12 @@ class Item extends MY_Controller {
 			'join'	=> 'd.category_item_id=a.category_item_id',
 			'type'	=> 'left'
 		);
+
+		$join['data'][] = array(
+			'table' => 'units e',
+			'join'	=> 'e.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
 		//WHERE
 		$where['data'][] = array(
 			'column' => 'item_id',
@@ -398,6 +404,7 @@ class Item extends MY_Controller {
 					'item_weight_rn' 	=> $val->item_weight_rn,
 					'item_type_id' 		=> $val->item_type_id,
 					'item_type_name' 	=> $val->item_type_name,
+					'item_per_unit' 	=> $val->item_per_unit,
 					'item_price1' 		=> $val->item_price1,
 					'item_price2'		=> $val->item_price2,
 					'item_netto' 		=> $val->item_netto,
@@ -408,6 +415,8 @@ class Item extends MY_Controller {
 					'material_type_name' 	=> $val->material_type_name,
 					'category_item_id' 		=> $val->category_item_id,
 					'category_item_name' 	=> $val->category_item_name,
+					'unit_id' 		=> $val->unit_id,
+					'unit_name' 	=> $val->unit_name,
 				);
 			}
 
@@ -647,8 +656,10 @@ class Item extends MY_Controller {
 			'item_weight' 		=> $this->input->post('i_weight', TRUE),
 			'item_weight_rn' 	=> $this->input->post('i_weight_rn', TRUE),
 			'item_type_id' 		=> $this->input->post('i_type', TRUE),
+			'unit_id' 			=> $this->input->post('i_unit', TRUE),
 			'item_price1' 		=> $this->input->post('i_price1', TRUE),
 			'item_price2' 		=> $this->input->post('i_price2', TRUE),
+			'item_per_unit' 	=> $this->input->post('i_qty_per_unit', TRUE),
 			'item_netto' 		=> $this->input->post('i_netto', TRUE),
 			'item_cost' 		=> $this->input->post('i_cost', TRUE),
 			'item_stock' 		=> $this->input->post('i_stock', TRUE),

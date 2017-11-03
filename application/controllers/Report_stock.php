@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_stock extends MY_Controller {
 	private $any_error = array();
-	public $tbl = 'Report_stocks';
+	public $tbl = 'report_stocks';
 
 	public function __construct() {
         parent::__construct();
@@ -44,7 +44,7 @@ class Report_stock extends MY_Controller {
 			'c'				=> $c
 			);
 
-		$this->open_page('Report_stock_v', $data);
+		$this->open_page('report_stock_v', $data);
 	}
 
 	public function load_data(){
@@ -57,7 +57,7 @@ class Report_stock extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$tbl = 'Report_stocks a';
+		$tbl = 'report_stocks a';
 		$select = 'a.*,b.warehouse_name';
 		//LIMIT
 		$limit = array(
@@ -351,7 +351,7 @@ class Report_stock extends MY_Controller {
 
 	public function load_data_where(){
 		$select = 'a.*,b.warehouse_name';
-		$tbl = 'Report_stocks a';
+		$tbl = 'report_stocks a';
 		//JOIN
 		$join['data'][] = array(
 			'table' => 'warehouses b',

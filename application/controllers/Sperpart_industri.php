@@ -56,7 +56,7 @@ class Sperpart_industri extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$select = '*';
+		$select = 'a.*,b.unit_name';
 		//LIMIT
 		$limit = array(
 			'start'  => $this->input->get('start'),
@@ -79,9 +79,15 @@ class Sperpart_industri extends MY_Controller {
 			'param'		=>2
 			);
 
-		$query_total = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,$where);
-		$query_filter = $this->g_mod->select($select,$this->tbl,NULL,$where_like,$order,NULL,$where);
-		$query = $this->g_mod->select($select,$this->tbl,$limit,$where_like,$order,NULL,$where);
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+
+		$query_total = $this->g_mod->select($select,'sperparts a',NULL,NULL,NULL,$join,$where);
+		$query_filter = $this->g_mod->select($select,'sperparts a',NULL,$where_like,$order,$join,$where);
+		$query = $this->g_mod->select($select,'sperparts a',$limit,$where_like,$order,$join,$where);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -92,6 +98,7 @@ class Sperpart_industri extends MY_Controller {
 						$val->sperpart_name,
 						$val->sperpart_qty,
 						number_format($val->sperpart_price,2),
+						$val->unit_name,
 						'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data('.$val->sperpart_id.'),reset()" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data('.$val->sperpart_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
 					);
 					$no++;	
@@ -112,19 +119,27 @@ class Sperpart_industri extends MY_Controller {
 	}
 
 	public function load_data_where(){
-		$select = '*';
+		$select = 'a.*,b.unit_name';
 		//WHERE
 		$where['data'][] = array(
 			'column' => 'sperpart_id',
 			'param'	 => $this->input->get('id')
 		);
-		$query = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,$where);
+
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+		$query = $this->g_mod->select($select,'sperparts a',NULL,NULL,NULL,$join,$where);
 		if ($query<>false) {
 
 			foreach ($query->result() as $val) {
 				$response['val'][] = array(
 					'sperpart_id'		=> $val->sperpart_id,
 					'sperpart_name' 	=> $val->sperpart_name,
+					'unit_id'		=> $val->unit_id,
+					'unit_name' 	=> $val->unit_name,
 					'sperpart_min' 		=> $val->sperpart_min,
 					'sperpart_max' 		=> $val->sperpart_max,
 					'sperpart_price' 	=> $val->sperpart_price,
@@ -193,6 +208,7 @@ class Sperpart_industri extends MY_Controller {
 			'sperpart_min' 		=> $this->input->post('i_min', TRUE),
 			'sperpart_max' 		=> $this->input->post('i_max', TRUE),
 			'sperpart_price' 	=> $this->input->post('i_price', TRUE),
+			'unit_id' 	=> $this->input->post('i_unit', TRUE),
 			'sperpart_qty' 		=> $this->input->post('i_stock', TRUE),
 			'sperpart_type' 		=> 2
 			);

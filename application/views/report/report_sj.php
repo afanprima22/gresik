@@ -66,9 +66,10 @@
       </thead>
       <tbody>
       <?php
-        $sql = "SELECT a.*,b.item_name,b.item_qty_per_dos,b.item_netto 
+        $sql = "SELECT a.*,b.item_name,b.item_qty_per_dos,b.item_netto,c.unit_name 
                 FROM nota_details a 
-                JOIN items b on b.item_id = a.item_id 
+                JOIN items b on b.item_id = a.item_id
+                LEFT JOIN units c on c.unit_id = b.unit_id  
                 WHERE nota_id = $nota_id";
         $row = $this->g_mod->select_manual_for($sql);
         $no = 1;
@@ -79,8 +80,8 @@
           ?>
           <tr>
             <td><?=$no?></td>
-            <td><?=$val2->nota_detail_qty?>&nbsp;DOS</td>
-            <td><?=$val2->item_qty_per_dos?></td>
+            <td><?=$val2->nota_detail_qty?></td>
+            <td><?=$val2->unit_name?></td>
             <td><?=$jum_Sat?></td>
             <td><?=$val2->item_name?></td>
             <td width="2%">0</td>
@@ -162,7 +163,7 @@
 <?php
 function Terbilang($x)
 {
-  $abil = array("nol ", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+  $abil = array(" ", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
   if ($x < 12)
     return " " . $abil[$x];
   elseif ($x < 20)

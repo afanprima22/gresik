@@ -92,7 +92,7 @@
                                       <td>
                                         <div id="item">
                                           <div class="col-md-6">
-                                            <select class="form-control select2" name="i_item" id="i_item" style="width: 100%;" onchange="get_item(this.value),get_item_price(this.value)">
+                                            <select class="form-control select2" name="i_item" id="i_item" style="width: 100%;" onchange="get_item(this.value)">
                                             </select>
                                           </div>
                                           <div class="col-md-6" >

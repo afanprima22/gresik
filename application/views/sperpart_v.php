@@ -16,6 +16,7 @@
                                 <th>Nama Sperpart</th>
                                 <th>Stok</th>
                                 <th>Harga Terakhir</th>
+                                <th>Satuan</th>
                                 <th>Config</th>
                             </tr>
                         </thead>
@@ -34,18 +35,20 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label>Id Sperpart (Auto)</label>
-                            <input type="text" class="form-control" name="i_id" id="i_id" placeholder="Auto" value="" readonly="">
-                          </div>
-                          <div class="form-group">
                             <label>Nama Sperpart</label>
+                            <input type="hidden" class="form-control" name="i_id" id="i_id" placeholder="Auto" value="" readonly="">
                             <input type="text" class="form-control" name="i_name" id="i_name" placeholder="Masukkan Nama Sperpart" required="required" value="" >
                           </div>
                           <div class="form-group">
                             <label>Harga Beli</label>
                             <input type="text" class="form-control money" name="i_price" id="i_price" placeholder="Masukkan Harga Beli" value="" required="required" style="text-align: right;">
                           </div>
-                          
+                          <div class="form-group">
+                            <label>Jenis Satuan</label>
+                            <select class="form-control select2" name="i_unit" id="i_unit" style="width: 100%;" required="required">
+                            </select>
+                          </div>
+
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -64,7 +67,7 @@
                       </div>
                     </div>
                       <div class="box-footer text-right">
-                        <button type="button" onclick="reset()" class="btn btn-warning">Batal</button>
+                        <button type="button" onclick="reset(),reset2()" class="btn btn-warning">Batal</button>
                         <button type="submit" class="btn btn-primary" <?php if(isset($c)) echo $c;?>>Simpan</button>
                       </div>
 
@@ -79,6 +82,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         search_data();
+        select_list_unit();
 
     });
 
@@ -94,6 +98,7 @@
               {"name": "sperpart_name"},
               {"name": "sperpart_qty"},
               {"name": "sperpart_price"},
+              {"name": "unit_name"},
               {"name": "action","orderable": false,"searchable": false, "className": "text-center"}
             ],
             "order": [
@@ -128,6 +133,7 @@
           success:function(data){
             if(data.status=='200'){
               reset();
+              reset2();
               search_data();
               $('[href="#list"]').tab('show');
               if (data.alert=='1') {
@@ -181,12 +187,54 @@
               document.getElementById("i_stock").value = data.val[i].sperpart_qty;
               document.getElementById("i_min").value = data.val[i].sperpart_min;
               document.getElementById("i_max").value = data.val[i].sperpart_max;
+              $("#i_unit").append('<option value="'+data.val[i].unit_id+'" selected>'+data.val[i].unit_name+'</option>');
             }
           }
         });
 
         $('[href="#form"]').tab('show');
     }
+
+    function select_list_unit() {
+        $('#i_unit').select2({
+          placeholder: 'Pilih Satuan',
+          multiple: false,
+          allowClear: true,
+          ajax: {
+            url: '<?php echo base_url();?>Unit/load_data_select_unit/',
+            dataType: 'json',
+            delay: 100,
+            cache: true,
+            data: function (params) {
+              return {
+                q: params.term, // search term
+                page: params.page
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total_count
+                }
+              };
+            }
+          },
+          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          templateResult: FormatResult,
+          templateSelection: FormatSelection,
+        });
+      }
+
+      function reset2(){
+        $('#i_unit option').remove();
+        $('input[name="i_id"]').val("");
+      }
+
+
 </script>
 </body>
 </html>

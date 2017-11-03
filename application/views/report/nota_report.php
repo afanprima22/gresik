@@ -67,9 +67,10 @@
       </thead>
       <tbody>
       <?php
-        $sql = "SELECT a.*,b.item_name,b.item_qty_per_dos,b.item_netto 
+        $sql = "SELECT a.*,b.item_name,b.item_qty_per_dos,b.item_netto,c.unit_name 
                 FROM nota_details a 
-                JOIN items b on b.item_id = a.item_id 
+                JOIN items b on b.item_id = a.item_id
+                LEFT JOIN units c on c.unit_id = b.unit_id 
                 WHERE nota_id = $nota_id";
         $row = $this->g_mod->select_manual_for($sql);
         $no = 1;
@@ -77,20 +78,20 @@
         $total_diskon = 0;
         $total_coli = 0;
         foreach ($row->result() as $val2) {
-          $diskon = $val2->nota_detail_discount / 100 * $val2->nota_detail_price;
-          $satuan = $val2->nota_detail_qty * $val2->item_qty_per_dos;
-          $total = $satuan * $val2->nota_detail_price;
+          $satuan = $val2->item_qty_per_dos;
+          $total = $val2->nota_detail_qty * $val2->nota_detail_price;
+          $diskon = $val2->nota_detail_discount / 100 * $total;
           $coli = $val2->nota_detail_qty;
           ?>
           <tr>
             <td><?=$no?></td>
-            <td><?=$val2->nota_detail_qty?>&nbsp;DOS</td>
-            <td><?=$val2->item_qty_per_dos?></td>
+            <td><?=$val2->nota_detail_qty?></td>
+            <td><?=$val2->unit_name?></td>
             <td><?=$satuan?></td>
             <td><?=$val2->item_name?></td>
             <td><?=$val2->nota_detail_price?></td>
             <td><?=$val2->nota_detail_discount?></td>
-            <td><?=$total?></td>
+            <td><?=number_format($total)?></td>
           </tr>
         <? 
         $no++;
@@ -98,20 +99,30 @@
         $total_diskon += $diskon;
         $total_coli += $coli;
 
+        $sql = "SELECT a.*
+                FROM notas a
+                WHERE nota_id = $nota_id";
+        $row2 = $this->g_mod->select_manual($sql);
+        $diskon2 = $row2['nota_discount'] / 100 * $total_row;
+
         }?>
         <tr  border="0">
                   <td colspan="8"><table width="100%" border="0">
                   <?php
-                    $grand_total = $total_row - $total_diskon;
+                    $grand_total = $total_row - $total_diskon-$diskon2;
                   ?>
                     <tr>
-                      <td colspan="6" rowspan="2">Terbilang : <?= ucwords(Terbilang($grand_total))?></td>
+                      <td colspan="6" rowspan="3">Terbilang : <?= ucwords(Terbilang($grand_total))?></td>
                       <th width="18%" style="text-align:right">Jumlah : Rp.</th>
                       <th width="10%" style="text-align:right"> <?=$total_row?></th>
                     </tr>
                     <tr>
                       <th style="text-align:right">Diskon : Rp.</th>
                       <th width="10%" style="text-align:right"><?=$total_diskon?></th>
+                    </tr>
+                    <tr>
+                      <th style="text-align:right">Diskon Global : Rp.</th>
+                      <th width="10%" style="text-align:right"><?=$diskon2?></th>
                     </tr>
                     <tr>
                       <td colspan="6" rowspan="3">Keterangan :</td>
@@ -183,7 +194,7 @@
 <?php
 function Terbilang($x)
 {
-  $abil = array(" ", "satu ", "dua ", "tiga ", "empat ", "lima ", "enam ", "tujuh ", "delapan ", "sembilan ", "sepuluh ", "sebelas ");
+  $abil = array(" ", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
   if ($x < 12)
     return " " . $abil[$x];
   elseif ($x < 20)

@@ -56,7 +56,7 @@ class Material extends MY_Controller {
 		if (strpos($this->permit, 'd') !== false){
 			$d = '';
 		}
-		$select = '*';
+		$select = 'a.*,b.unit_name';
 		//LIMIT
 		$limit = array(
 			'start'  => $this->input->get('start'),
@@ -74,9 +74,15 @@ class Material extends MY_Controller {
 			'type'	 => $this->input->get('order[0][dir]')
 		);
 
-		$query_total = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,NULL);
-		$query_filter = $this->g_mod->select($select,$this->tbl,NULL,$where_like,$order,NULL,NULL);
-		$query = $this->g_mod->select($select,$this->tbl,$limit,$where_like,$order,NULL,NULL);
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+
+		$query_total = $this->g_mod->select($select,'materials a',NULL,NULL,NULL,$join,NULL);
+		$query_filter = $this->g_mod->select($select,'materials a',NULL,$where_like,$order,$join,NULL);
+		$query = $this->g_mod->select($select,'materials a',$limit,$where_like,$order,$join,NULL);
 
 		$response['data'] = array();
 		if ($query<>false) {
@@ -88,6 +94,7 @@ class Material extends MY_Controller {
 						$val->material_min,
 						$val->material_max,
 						number_format($val->material_price,2),
+						$val->unit_name,
 						'<button class="btn btn-primary btn-xs" type="button" onclick="edit_data('.$val->material_id.'),reset()" '.$u.'><i class="glyphicon glyphicon-edit"></i></button>&nbsp;&nbsp;<button class="btn btn-danger btn-xs" type="button" onclick="delete_data('.$val->material_id.')" '.$d.'><i class="glyphicon glyphicon-trash"></i></button>'
 					);
 					$no++;	
@@ -114,7 +121,13 @@ class Material extends MY_Controller {
 			'column' => 'material_id',
 			'param'	 => $this->input->get('id')
 		);
-		$query = $this->g_mod->select($select,$this->tbl,NULL,NULL,NULL,NULL,$where);
+
+		$join['data'][] = array(
+			'table' => 'units b',
+			'join'	=> 'b.unit_id=a.unit_id',
+			'type'	=> 'inner'
+		);
+		$query = $this->g_mod->select($select,'materials a',NULL,NULL,NULL,$join,$where);
 		if ($query<>false) {
 
 			foreach ($query->result() as $val) {
@@ -125,6 +138,8 @@ class Material extends MY_Controller {
 					'material_max' 		=> $val->material_max,
 					'material_price' 	=> $val->material_price,
 					'material_stock' 	=> $val->material_stock,
+					'unit_id' 			=> $val->unit_id,
+					'unit_name' 		=> $val->unit_name,
 				);
 			}
 
@@ -189,6 +204,7 @@ class Material extends MY_Controller {
 			'material_min' 		=> $this->input->post('i_min', TRUE),
 			'material_max' 		=> $this->input->post('i_max', TRUE),
 			'material_price' 	=> $this->input->post('i_price', TRUE),
+			'unit_id' 	=> $this->input->post('i_unit', TRUE),
 			'material_stock' 	=> $this->input->post('i_stock', TRUE)
 			);
 
